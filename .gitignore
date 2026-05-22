@@ -8,6 +8,7 @@
 *.ld
 *.zip
 
-results/
+results/*
+!results/dmfs_positional_mapping.csv
 LDMatrix/
 data_samples/
