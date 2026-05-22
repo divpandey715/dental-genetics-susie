@@ -9,6 +9,7 @@
 *.zip
 
 results/*
+!results/dmfs_susie_final_summary.csv
 !results/dmfs_positional_mapping.csv
 LDMatrix/
 data_samples/
