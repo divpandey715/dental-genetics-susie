@@ -11,5 +11,6 @@
 results/*
 !results/dmfs_susie_final_summary.csv
 !results/dmfs_positional_mapping.csv
+!results/dmfs_eqtl_colocalization_summary.txt
 LDMatrix/
 data_samples/
