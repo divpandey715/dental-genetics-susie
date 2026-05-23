@@ -1,0 +1,89 @@
+---
+title: "SuSiE-RSS Fine-Mapping for Dental Traits"
+author: "Divya Pandey"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+---
+
+## Overview
+
+This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary statistics and LD matrices.
+
+The current workflow is implemented for **DMFS** and includes:
+
+1. SuSiE credible set results  
+2. Positional mapping to nearest hg19 genes  
+3. eQTL colocalization summary  
+
+```{r setup, echo=TRUE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(DT)
+```
+
+## SuSiE credible set results
+
+```{r susie-results, echo=TRUE}
+susie_final_summary <- read.csv("results/dmfs_susie_final_summary.csv")
+
+susie_final_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "DMFS SuSiE Credible Set Results",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Position mapping
+
+```{r position-mapping, echo=TRUE}
+positional_mapping <- read.csv("results/dmfs_positional_mapping.csv")
+
+positional_mapping %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    PIP,
+    external_gene_name,
+    ensembl_gene_id,
+    everything()
+  ) %>%
+  arrange(desc(PIP)) %>%
+  datatable(
+    caption = "SuSiE Results with Nearest hg19 Genes",
+    extensions = "Buttons",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## eQTL colocalization
+
+```{r eqtl-results, echo=TRUE}
+eqtl_summary <- readLines("results/dmfs_eqtl_colocalization_summary.txt")
+
+cat(eqtl_summary)
+```
