@@ -95,3 +95,7 @@ eqtl_summary <- readLines("results/dmfs_eqtl_colocalization_summary.txt")
 
 cat(eqtl_summary)
 ```
+
+results/nteeth_susie_final_summary.csv
+results/nteeth_positional_mapping.csv
+results/nteeth_eqtl_colocalization_summary.txt
