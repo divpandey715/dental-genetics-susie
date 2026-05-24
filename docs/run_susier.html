@@ -531,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree4f7bdb5a0f08373a52b08843d0b3576606a38555targetblank4f7bdb5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree2ed0ded777ca9065c84769fa85263a96ef66a87dtargetblank2ed0deda">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/4f7bdb5a0f08373a52b08843d0b3576606a38555" target="_blank">4f7bdb5</a>
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/2ed0ded777ca9065c84769fa85263a96ef66a87d" target="_blank">2ed0ded</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree4f7bdb5a0f08373a52b08843d0b3576606a38555targetblank4f7bdb5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree2ed0ded777ca9065c84769fa85263a96ef66a87dtargetblank2ed0deda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/4f7bdb5a0f08373a52b08843d0b3576606a38555" target="_blank">4f7bdb5</a>.
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/2ed0ded777ca9065c84769fa85263a96ef66a87d" target="_blank">2ed0ded</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -571,6 +571,20 @@ Ignored files:
     Ignored:    data_samples/
     Ignored:    figures/
     Ignored:    results/dmfs_susie_results.RDS
+    Ignored:    results/nteeth_susie_results.RDS
+
+Untracked files:
+    Untracked:  results/nteeth_eqtl_colocalization_summary.txt
+    Untracked:  results/nteeth_positional_mapping.csv
+    Untracked:  results/nteeth_susie_final_summary.csv
+    Untracked:  scripts/02_run_susie_nteeth.R
+    Untracked:  scripts/03_summarize_results_nteeth.R
+    Untracked:  scripts/04_position_mapping_nteeth.R
+    Untracked:  scripts/05_eqtl_colocalization_nteeth.R
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   scripts/01_prepare_input_data.R
 
 </code></pre>
 <p>
@@ -621,6 +635,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/divpandey715/dental-genetics-susie/blob/2ed0ded777ca9065c84769fa85263a96ef66a87d/analysis/run_susier.Rmd" target="_blank">2ed0ded</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-05-23
+</td>
+<td>
+Add Nteeth overview to workflowr page
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/divpandey715/dental-genetics-susie/f14bb2af5ee5305c3aa3fb5dd094173d8c8206c2/docs/run_susier.html" target="_blank">f14bb2a</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-05-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/divpandey715/dental-genetics-susie/blob/4f7bdb5a0f08373a52b08843d0b3576606a38555/analysis/run_susier.Rmd" target="_blank">4f7bdb5</a>
 </td>
 <td>
@@ -644,8 +692,20 @@ Render DMFS SuSiE workflowr page with code
 <h2>Overview</h2>
 <p>This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary
 statistics and LD matrices.</p>
-<p>The current workflow is implemented for <strong>DMFS</strong> and
-includes:</p>
+<p>The current workflow is implemented for <strong>DMFS and
+Nteeth</strong> and includes:</p>
+<div id="dmfs" class="section level3">
+<h3>DMFS</h3>
+<ol style="list-style-type: decimal">
+<li>SuSiE credible set results<br />
+</li>
+<li>Positional mapping to nearest hg19 genes<br />
+</li>
+<li>eQTL colocalization summary</li>
+</ol>
+</div>
+<div id="nteeth" class="section level3">
+<h3>Nteeth</h3>
 <ol style="list-style-type: decimal">
 <li>SuSiE credible set results<br />
 </li>
@@ -655,6 +715,7 @@ includes:</p>
 </ol>
 <pre class="r"><code>library(dplyr)
 library(DT)</code></pre>
+</div>
 </div>
 <div id="susie-credible-set-results" class="section level2">
 <h2>SuSiE credible set results</h2>
