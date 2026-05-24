@@ -28,12 +28,14 @@ library(dplyr)
 library(DT)
 ```
 
-## SuSiE credible set results
+# DMFS
 
-```{r susie-results, echo=TRUE}
-susie_final_summary <- read.csv("results/dmfs_susie_final_summary.csv")
+## DMFS SuSiE credible set results
 
-susie_final_summary %>%
+```{r dmfs-susie-results, echo=TRUE}
+dmfs_susie_final_summary <- read.csv("results/dmfs_susie_final_summary.csv")
+
+dmfs_susie_final_summary %>%
   arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
@@ -58,12 +60,12 @@ susie_final_summary %>%
   )
 ```
 
-## Position mapping
+## DMFS position mapping
 
-```{r position-mapping, echo=TRUE}
-positional_mapping <- read.csv("results/dmfs_positional_mapping.csv")
+```{r dmfs-position-mapping, echo=TRUE}
+dmfs_positional_mapping <- read.csv("results/dmfs_positional_mapping.csv")
 
-positional_mapping %>%
+dmfs_positional_mapping %>%
   dplyr::select(
     Locus,
     MarkerName,
@@ -74,7 +76,7 @@ positional_mapping %>%
   ) %>%
   arrange(desc(PIP)) %>%
   datatable(
-    caption = "SuSiE Results with Nearest hg19 Genes",
+    caption = "DMFS SuSiE Results with Nearest hg19 Genes",
     extensions = "Buttons",
     options = list(
       dom = "Blfrtip",
@@ -88,14 +90,80 @@ positional_mapping %>%
   )
 ```
 
-## eQTL colocalization
+## DMFS eQTL colocalization
 
-```{r eqtl-results, echo=TRUE}
-eqtl_summary <- readLines("results/dmfs_eqtl_colocalization_summary.txt")
+```{r dmfs-eqtl-results, echo=TRUE}
+dmfs_eqtl_summary <- readLines("results/dmfs_eqtl_colocalization_summary.txt")
 
-cat(eqtl_summary)
+cat(dmfs_eqtl_summary)
 ```
 
-results/nteeth_susie_final_summary.csv
-results/nteeth_positional_mapping.csv
-results/nteeth_eqtl_colocalization_summary.txt
+# Nteeth
+
+## Nteeth SuSiE credible set results
+
+```{r nteeth-susie-results, echo=TRUE}
+nteeth_susie_final_summary <- read.csv("results/nteeth_susie_final_summary.csv")
+
+nteeth_susie_final_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "Nteeth SuSiE Credible Set Results",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Nteeth position mapping
+
+```{r nteeth-position-mapping, echo=TRUE}
+nteeth_positional_mapping <- read.csv("results/nteeth_positional_mapping.csv")
+
+nteeth_positional_mapping %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    PIP,
+    external_gene_name,
+    ensembl_gene_id,
+    everything()
+  ) %>%
+  arrange(desc(PIP)) %>%
+  datatable(
+    caption = "Nteeth SuSiE Results with Nearest hg19 Genes",
+    extensions = "Buttons",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Nteeth eQTL colocalization
+
+```{r nteeth-eqtl-results, echo=TRUE}
+nteeth_eqtl_summary <- readLines("results/nteeth_eqtl_colocalization_summary.txt")
+
+cat(nteeth_eqtl_summary)
+```
