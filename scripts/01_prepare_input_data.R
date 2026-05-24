@@ -51,3 +51,20 @@ saveRDS(
 #   perio_summary,
 #   file = file.path(root, "data_samples/perio_summary.RDS")
 # )
+
+############################
+# Nteeth
+############################
+
+nteeth_summary <- read.table(
+  file.path(root, "data_samples/EUR_nteeth_incl_HCHSSOL.txt"),
+  header = TRUE
+)
+
+head(nteeth_summary)
+dim(nteeth_summary)
+
+saveRDS(
+  nteeth_summary,
+  file = file.path(root, "data_samples/nteeth_summary.RDS")
+)
