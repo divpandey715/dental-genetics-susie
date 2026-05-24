@@ -9,7 +9,15 @@ output: workflowr::wflow_html
 
 This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary statistics and LD matrices.
 
-The current workflow is implemented for **DMFS** and includes:
+The current workflow is implemented for **DMFS and Nteeth** and includes:
+
+### DMFS
+
+1. SuSiE credible set results  
+2. Positional mapping to nearest hg19 genes  
+3. eQTL colocalization summary  
+
+### Nteeth
 
 1. SuSiE credible set results  
 2. Positional mapping to nearest hg19 genes  
