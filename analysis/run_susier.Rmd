@@ -167,3 +167,61 @@ nteeth_eqtl_summary <- readLines("results/nteeth_eqtl_colocalization_summary.txt
 
 cat(nteeth_eqtl_summary)
 ```
+# Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
+
+This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS. GWAS Z-scores for both traits were aligned to the same locus-specific EUR LD matrices. LD SNP identifiers were mapped from rsID to chr:position format using the corresponding `.id_map` files.
+
+```{r joint-mvsusie-results, echo=TRUE, message=FALSE, warning=FALSE}
+mvsusie_summary <- read.csv("results/dmfs_nteeth_mvsusie_summary.csv")
+
+mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_DMFS,
+    Z_Nteeth,
+    Pvalue_DMFS,
+    Pvalue_Nteeth,
+    Effect_DMFS,
+    Effect_Nteeth,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and Nteeth",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Top joint mvSuSiE signals
+
+```{r top-joint-mvsusie-results, echo=TRUE}
+mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_DMFS,
+    Z_Nteeth,
+    Pvalue_DMFS,
+    Pvalue_Nteeth
+  ) %>%
+  head(20)
+```
