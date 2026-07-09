@@ -9,7 +9,7 @@ output: workflowr::wflow_html
 
 This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary statistics and LD matrices.
 
-The current workflow is implemented for **DMFS and Nteeth** and includes:
+The current workflow is implemented for **DMFS, Nteeth, and DFSS** and includes:
 
 ### DMFS
 
@@ -18,6 +18,12 @@ The current workflow is implemented for **DMFS and Nteeth** and includes:
 3. eQTL colocalization summary  
 
 ### Nteeth
+
+1. SuSiE credible set results  
+2. Positional mapping to nearest hg19 genes  
+3. eQTL colocalization summary  
+
+### DFSS
 
 1. SuSiE credible set results  
 2. Positional mapping to nearest hg19 genes  
@@ -33,7 +39,9 @@ library(DT)
 ## DMFS SuSiE credible set results
 
 ```{r dmfs-susie-results, echo=TRUE}
-dmfs_susie_final_summary <- read.csv("results/dmfs_susie_final_summary.csv")
+dmfs_susie_final_summary <- read.csv(
+  "results/dmfs_susie_final_summary.csv"
+)
 
 dmfs_susie_final_summary %>%
   arrange(desc(PIP)) %>%
@@ -63,7 +71,9 @@ dmfs_susie_final_summary %>%
 ## DMFS position mapping
 
 ```{r dmfs-position-mapping, echo=TRUE}
-dmfs_positional_mapping <- read.csv("results/dmfs_positional_mapping.csv")
+dmfs_positional_mapping <- read.csv(
+  "results/dmfs_positional_mapping.csv"
+)
 
 dmfs_positional_mapping %>%
   dplyr::select(
@@ -93,7 +103,9 @@ dmfs_positional_mapping %>%
 ## DMFS eQTL colocalization
 
 ```{r dmfs-eqtl-results, echo=TRUE}
-dmfs_eqtl_summary <- readLines("results/dmfs_eqtl_colocalization_summary.txt")
+dmfs_eqtl_summary <- readLines(
+  "results/dmfs_eqtl_colocalization_summary.txt"
+)
 
 cat(dmfs_eqtl_summary)
 ```
@@ -103,7 +115,9 @@ cat(dmfs_eqtl_summary)
 ## Nteeth SuSiE credible set results
 
 ```{r nteeth-susie-results, echo=TRUE}
-nteeth_susie_final_summary <- read.csv("results/nteeth_susie_final_summary.csv")
+nteeth_susie_final_summary <- read.csv(
+  "results/nteeth_susie_final_summary.csv"
+)
 
 nteeth_susie_final_summary %>%
   arrange(desc(PIP)) %>%
@@ -133,7 +147,9 @@ nteeth_susie_final_summary %>%
 ## Nteeth position mapping
 
 ```{r nteeth-position-mapping, echo=TRUE}
-nteeth_positional_mapping <- read.csv("results/nteeth_positional_mapping.csv")
+nteeth_positional_mapping <- read.csv(
+  "results/nteeth_positional_mapping.csv"
+)
 
 nteeth_positional_mapping %>%
   dplyr::select(
@@ -163,16 +179,95 @@ nteeth_positional_mapping %>%
 ## Nteeth eQTL colocalization
 
 ```{r nteeth-eqtl-results, echo=TRUE}
-nteeth_eqtl_summary <- readLines("results/nteeth_eqtl_colocalization_summary.txt")
+nteeth_eqtl_summary <- readLines(
+  "results/nteeth_eqtl_colocalization_summary.txt"
+)
 
 cat(nteeth_eqtl_summary)
 ```
+
+# DFSS
+
+## DFSS SuSiE credible set results
+
+```{r dfss-susie-results, echo=TRUE}
+dfss_susie_final_summary <- read.csv(
+  "results/dfss_susie_final_summary.csv"
+)
+
+dfss_susie_final_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "DFSS SuSiE Credible Set Results",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## DFSS position mapping
+
+```{r dfss-position-mapping, echo=TRUE}
+dfss_positional_mapping <- read.csv(
+  "results/dfss_positional_mapping.csv"
+)
+
+dfss_positional_mapping %>%
+  dplyr::select(
+    Locus,
+    MarkerName,
+    PIP,
+    external_gene_name,
+    ensembl_gene_id,
+    everything()
+  ) %>%
+  arrange(desc(PIP)) %>%
+  datatable(
+    caption = "DFSS SuSiE Results with Nearest hg19 Genes",
+    extensions = "Buttons",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## DFSS eQTL colocalization
+
+```{r dfss-eqtl-results, echo=TRUE}
+cat(
+  "No eQTL matches found in the specified tissue: Whole_Blood"
+)
+```
+
 # Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
 
-This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS. GWAS Z-scores for both traits were aligned to the same locus-specific EUR LD matrices. LD SNP identifiers were mapped from rsID to chr:position format using the corresponding `.id_map` files.
+This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS.
 
 ```{r joint-mvsusie-results, echo=TRUE, message=FALSE, warning=FALSE}
-mvsusie_summary <- read.csv("results/dmfs_nteeth_mvsusie_summary.csv")
+mvsusie_summary <- read.csv(
+  "results/dmfs_nteeth_mvsusie_summary.csv"
+)
 
 mvsusie_summary %>%
   arrange(desc(PIP)) %>%
@@ -225,3 +320,126 @@ mvsusie_summary %>%
   ) %>%
   head(20)
 ```
+
+# Joint mvSuSiE Fine-Mapping: DMFS and DFSS
+
+This section presents the joint multi-trait fine-mapping results for DMFS and DFSS using mvSuSiE-RSS.
+
+```{r joint-mvsusie-dmfs-dfss, echo=TRUE, message=FALSE, warning=FALSE}
+dmfs_dfss_mvsusie_summary <- read.csv(
+  "results/dmfs_dfss_mvsusie_summary.csv"
+)
+
+dmfs_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_DMFS,
+    Z_DFSS,
+    Pvalue_DMFS,
+    Pvalue_DFSS,
+    Effect_DMFS,
+    Effect_DFSS,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and DFSS",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Top joint DMFS and DFSS mvSuSiE signals
+
+```{r top-joint-mvsusie-dmfs-dfss, echo=TRUE}
+dmfs_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_DMFS,
+    Z_DFSS,
+    Pvalue_DMFS,
+    Pvalue_DFSS
+  ) %>%
+  head(20)
+```
+
+# Joint mvSuSiE Fine-Mapping: Nteeth and DFSS
+
+This section presents the joint multi-trait fine-mapping results for Nteeth and DFSS using mvSuSiE-RSS.
+
+```{r joint-mvsusie-nteeth-dfss, echo=TRUE, message=FALSE, warning=FALSE}
+nteeth_dfss_mvsusie_summary <- read.csv(
+  "results/nteeth_dfss_mvsusie_summary.csv"
+)
+
+nteeth_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_Nteeth,
+    Z_DFSS,
+    Pvalue_Nteeth,
+    Pvalue_DFSS,
+    Effect_Nteeth,
+    Effect_DFSS,
+    everything()
+  ) %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "Joint mvSuSiE Fine-Mapping Results for Nteeth and DFSS",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Top joint Nteeth and DFSS mvSuSiE signals
+
+```{r top-joint-mvsusie-nteeth-dfss, echo=TRUE}
+nteeth_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_Nteeth,
+    Z_DFSS,
+    Pvalue_Nteeth,
+    Pvalue_DFSS
+  ) %>%
+  head(20)
+```
+
