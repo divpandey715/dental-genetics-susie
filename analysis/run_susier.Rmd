@@ -262,32 +262,15 @@ cat(
 
 # Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
 
-This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS.
 
 ```{r joint-mvsusie-results, echo=TRUE, message=FALSE, warning=FALSE}
 mvsusie_summary <- read.csv(
   "results/dmfs_nteeth_mvsusie_summary.csv"
 )
 
-dmfs_genes <- read.csv("results/dmfs_positional_mapping.csv")
-nteeth_genes <- read.csv("results/nteeth_positional_mapping.csv")
-
-nearest_genes_dmfs_nteeth <- bind_rows(
-  dmfs_genes,
-  nteeth_genes
-) %>%
-  dplyr::select(
-    MarkerName,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene"))
-  ) %>%
-  distinct(MarkerName, .keep_all = TRUE)
-
-mvsusie_summary_pip1 <- mvsusie_summary %>%
-  filter(PIP == 1) %>%
-  left_join(nearest_genes_dmfs_nteeth, by = "MarkerName") %>%
-  distinct() %>%
+mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
     rsid,
@@ -295,9 +278,6 @@ mvsusie_summary_pip1 <- mvsusie_summary %>%
     CS,
     PIP,
     Purity,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene")),
     Z_DMFS,
     Z_Nteeth,
     Pvalue_DMFS,
@@ -306,12 +286,9 @@ mvsusie_summary_pip1 <- mvsusie_summary %>%
     Effect_Nteeth,
     everything()
   ) %>%
-  arrange(Locus, MarkerName)
-
-mvsusie_summary_pip1 %>%
   datatable(
     extensions = "Buttons",
-    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and Nteeth: PIP = 1 with Nearest hg19 Genes",
+    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and Nteeth",
     options = list(
       dom = "Blfrtip",
       buttons = c("copy", "csv", "excel", "pdf", "print"),
@@ -327,7 +304,8 @@ mvsusie_summary_pip1 %>%
 ## Top joint mvSuSiE signals
 
 ```{r top-joint-mvsusie-results, echo=TRUE}
-mvsusie_summary_pip1 %>%
+mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
     rsid,
@@ -335,8 +313,6 @@ mvsusie_summary_pip1 %>%
     CS,
     PIP,
     Purity,
-    external_gene_name,
-    ensembl_gene_id,
     Z_DMFS,
     Z_Nteeth,
     Pvalue_DMFS,
@@ -347,32 +323,15 @@ mvsusie_summary_pip1 %>%
 
 # Joint mvSuSiE Fine-Mapping: DMFS and DFSS
 
-This section presents the joint multi-trait fine-mapping results for DMFS and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the joint multi-trait fine-mapping results for DMFS and DFSS using mvSuSiE-RSS.
 
 ```{r joint-mvsusie-dmfs-dfss, echo=TRUE, message=FALSE, warning=FALSE}
 dmfs_dfss_mvsusie_summary <- read.csv(
   "results/dmfs_dfss_mvsusie_summary.csv"
 )
 
-dmfs_genes <- read.csv("results/dmfs_positional_mapping.csv")
-dfss_genes <- read.csv("results/dfss_positional_mapping.csv")
-
-nearest_genes_dmfs_dfss <- bind_rows(
-  dmfs_genes,
-  dfss_genes
-) %>%
-  dplyr::select(
-    MarkerName,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene"))
-  ) %>%
-  distinct(MarkerName, .keep_all = TRUE)
-
-dmfs_dfss_mvsusie_summary_pip1 <- dmfs_dfss_mvsusie_summary %>%
-  filter(PIP == 1) %>%
-  left_join(nearest_genes_dmfs_dfss, by = "MarkerName") %>%
-  distinct() %>%
+dmfs_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
     rsid,
@@ -380,9 +339,6 @@ dmfs_dfss_mvsusie_summary_pip1 <- dmfs_dfss_mvsusie_summary %>%
     CS,
     PIP,
     Purity,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene")),
     Z_DMFS,
     Z_DFSS,
     Pvalue_DMFS,
@@ -391,12 +347,9 @@ dmfs_dfss_mvsusie_summary_pip1 <- dmfs_dfss_mvsusie_summary %>%
     Effect_DFSS,
     everything()
   ) %>%
-  arrange(Locus, MarkerName)
-
-dmfs_dfss_mvsusie_summary_pip1 %>%
   datatable(
     extensions = "Buttons",
-    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and DFSS: PIP = 1 with Nearest hg19 Genes",
+    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS and DFSS",
     options = list(
       dom = "Blfrtip",
       buttons = c("copy", "csv", "excel", "pdf", "print"),
@@ -412,7 +365,8 @@ dmfs_dfss_mvsusie_summary_pip1 %>%
 ## Top joint DMFS and DFSS mvSuSiE signals
 
 ```{r top-joint-mvsusie-dmfs-dfss, echo=TRUE}
-dmfs_dfss_mvsusie_summary_pip1 %>%
+dmfs_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
     rsid,
@@ -420,8 +374,6 @@ dmfs_dfss_mvsusie_summary_pip1 %>%
     CS,
     PIP,
     Purity,
-    external_gene_name,
-    ensembl_gene_id,
     Z_DMFS,
     Z_DFSS,
     Pvalue_DMFS,
@@ -432,32 +384,15 @@ dmfs_dfss_mvsusie_summary_pip1 %>%
 
 # Joint mvSuSiE Fine-Mapping: Nteeth and DFSS
 
-This section presents the joint multi-trait fine-mapping results for Nteeth and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the joint multi-trait fine-mapping results for Nteeth and DFSS using mvSuSiE-RSS.
 
 ```{r joint-mvsusie-nteeth-dfss, echo=TRUE, message=FALSE, warning=FALSE}
 nteeth_dfss_mvsusie_summary <- read.csv(
   "results/nteeth_dfss_mvsusie_summary.csv"
 )
 
-nteeth_genes <- read.csv("results/nteeth_positional_mapping.csv")
-dfss_genes <- read.csv("results/dfss_positional_mapping.csv")
-
-nearest_genes_nteeth_dfss <- bind_rows(
-  nteeth_genes,
-  dfss_genes
-) %>%
-  dplyr::select(
-    MarkerName,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene"))
-  ) %>%
-  distinct(MarkerName, .keep_all = TRUE)
-
-nteeth_dfss_mvsusie_summary_pip1 <- nteeth_dfss_mvsusie_summary %>%
-  filter(PIP == 1) %>%
-  left_join(nearest_genes_nteeth_dfss, by = "MarkerName") %>%
-  distinct() %>%
+nteeth_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
     rsid,
@@ -465,9 +400,6 @@ nteeth_dfss_mvsusie_summary_pip1 <- nteeth_dfss_mvsusie_summary %>%
     CS,
     PIP,
     Purity,
-    external_gene_name,
-    ensembl_gene_id,
-    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene")),
     Z_Nteeth,
     Z_DFSS,
     Pvalue_Nteeth,
@@ -476,12 +408,9 @@ nteeth_dfss_mvsusie_summary_pip1 <- nteeth_dfss_mvsusie_summary %>%
     Effect_DFSS,
     everything()
   ) %>%
-  arrange(Locus, MarkerName)
-
-nteeth_dfss_mvsusie_summary_pip1 %>%
   datatable(
     extensions = "Buttons",
-    caption = "Joint mvSuSiE Fine-Mapping Results for Nteeth and DFSS: PIP = 1 with Nearest hg19 Genes",
+    caption = "Joint mvSuSiE Fine-Mapping Results for Nteeth and DFSS",
     options = list(
       dom = "Blfrtip",
       buttons = c("copy", "csv", "excel", "pdf", "print"),
@@ -497,7 +426,159 @@ nteeth_dfss_mvsusie_summary_pip1 %>%
 ## Top joint Nteeth and DFSS mvSuSiE signals
 
 ```{r top-joint-mvsusie-nteeth-dfss, echo=TRUE}
-nteeth_dfss_mvsusie_summary_pip1 %>%
+nteeth_dfss_mvsusie_summary %>%
+  arrange(desc(PIP)) %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    Z_Nteeth,
+    Z_DFSS,
+    Pvalue_Nteeth,
+    Pvalue_DFSS
+  ) %>%
+  head(20)
+```
+
+## ------------------------------------------------------------
+## Joint mvSuSiE Results: PIP = 1 Only + Nearest Gene
+## ------------------------------------------------------------
+
+library(dplyr)
+library(DT)
+
+## ------------------------------------------------------------
+## 1. Read positional mapping files for nearest-gene annotation
+## ------------------------------------------------------------
+
+dmfs_genes <- read.csv("results/dmfs_positional_mapping.csv")
+nteeth_genes <- read.csv("results/nteeth_positional_mapping.csv")
+dfss_genes <- read.csv("results/dfss_positional_mapping.csv")
+
+nearest_genes <- bind_rows(
+  dmfs_genes,
+  nteeth_genes,
+  dfss_genes
+) %>%
+  select(
+    MarkerName,
+    external_gene_name,
+    ensembl_gene_id,
+    distance_to_gene
+  ) %>%
+  distinct(MarkerName, .keep_all = TRUE)
+
+
+## ------------------------------------------------------------
+## 2. Helper function for joint mvSuSiE result tables
+## ------------------------------------------------------------
+
+make_joint_pip1_table <- function(file_path, table_caption) {
+  
+  joint_results <- read.csv(file_path)
+  
+  ## Detect all PIP columns
+  pip_cols <- names(joint_results)[grepl("PIP|pip", names(joint_results))]
+  
+  if (length(pip_cols) == 0) {
+    stop(paste("No PIP column found in", file_path))
+  }
+  
+  ## Keep only rows where all PIP columns equal 1
+  joint_results_pip1 <- joint_results %>%
+    filter(if_all(all_of(pip_cols), ~ .x == 1)) %>%
+    left_join(nearest_genes, by = "MarkerName") %>%
+    distinct() %>%
+    select(
+      Locus,
+      MarkerName,
+      all_of(pip_cols),
+      external_gene_name,
+      ensembl_gene_id,
+      distance_to_gene,
+      everything()
+    ) %>%
+    arrange(Locus, MarkerName)
+  
+  datatable(
+    joint_results_pip1,
+    caption = table_caption,
+    extensions = "Buttons",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+}
+
+
+## ------------------------------------------------------------
+## 3. DMFS + Nteeth joint results
+## ------------------------------------------------------------
+
+make_joint_pip1_table(
+  file_path = "results/dmfs_nteeth_mvsusie_summary.csv",
+  table_caption = "DMFS + Nteeth Joint mvSuSiE Results: PIP = 1 with Nearest Genes"
+)
+
+
+## ------------------------------------------------------------
+## 4. DMFS + DFSS joint results
+## ------------------------------------------------------------
+
+make_joint_pip1_table(
+  file_path = "results/dmfs_dfss_mvsusie_summary.csv",
+  table_caption = "DMFS + DFSS Joint mvSuSiE Results: PIP = 1 with Nearest Genes"
+)
+
+
+## ------------------------------------------------------------
+## 5. Nteeth + DFSS joint results
+## ------------------------------------------------------------
+
+make_joint_pip1_table(
+  file_path = "results/nteeth_dfss_mvsusie_summary.csv",
+  table_caption = "Nteeth + DFSS Joint mvSuSiE Results: PIP = 1 with Nearest Genes"
+)
+
+# Joint mvSuSiE Fine-Mapping: DMFS, Nteeth, and DFSS
+
+This section presents the joint multi-trait fine-mapping results for DMFS, Nteeth, and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+
+```{r joint-mvsusie-all-three, echo=TRUE, message=FALSE, warning=FALSE}
+dmfs_nteeth_dfss_mvsusie_summary <- read.csv(
+  "results/dmfs_nteeth_dfss_mvsusie_summary.csv"
+)
+
+dmfs_genes <- read.csv("results/dmfs_positional_mapping.csv")
+nteeth_genes <- read.csv("results/nteeth_positional_mapping.csv")
+dfss_genes <- read.csv("results/dfss_positional_mapping.csv")
+
+nearest_genes_all_three <- bind_rows(
+  dmfs_genes,
+  nteeth_genes,
+  dfss_genes
+) %>%
+  dplyr::select(
+    MarkerName,
+    external_gene_name,
+    ensembl_gene_id,
+    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene"))
+  ) %>%
+  distinct(MarkerName, .keep_all = TRUE)
+
+dmfs_nteeth_dfss_mvsusie_summary_pip1 <- dmfs_nteeth_dfss_mvsusie_summary %>%
+  filter(PIP == 1) %>%
+  left_join(nearest_genes_all_three, by = "MarkerName") %>%
+  distinct() %>%
   dplyr::select(
     Locus,
     rsid,
@@ -507,8 +588,53 @@ nteeth_dfss_mvsusie_summary_pip1 %>%
     Purity,
     external_gene_name,
     ensembl_gene_id,
+    any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene")),
+    Z_DMFS,
     Z_Nteeth,
     Z_DFSS,
+    Pvalue_DMFS,
+    Pvalue_Nteeth,
+    Pvalue_DFSS,
+    Effect_DMFS,
+    Effect_Nteeth,
+    Effect_DFSS,
+    everything()
+  ) %>%
+  arrange(Locus, MarkerName)
+
+dmfs_nteeth_dfss_mvsusie_summary_pip1 %>%
+  datatable(
+    extensions = "Buttons",
+    caption = "Joint mvSuSiE Fine-Mapping Results for DMFS, Nteeth, and DFSS: PIP = 1 with Nearest hg19 Genes",
+    options = list(
+      dom = "Blfrtip",
+      buttons = c("copy", "csv", "excel", "pdf", "print"),
+      lengthMenu = list(
+        c(10, 25, 50, -1),
+        c(10, 25, 50, "All")
+      ),
+      scrollX = TRUE
+    )
+  )
+```
+
+## Top joint DMFS, Nteeth, and DFSS mvSuSiE signals
+
+```{r top-joint-mvsusie-all-three, echo=TRUE}
+dmfs_nteeth_dfss_mvsusie_summary_pip1 %>%
+  dplyr::select(
+    Locus,
+    rsid,
+    MarkerName,
+    CS,
+    PIP,
+    Purity,
+    external_gene_name,
+    ensembl_gene_id,
+    Z_DMFS,
+    Z_Nteeth,
+    Z_DFSS,
+    Pvalue_DMFS,
     Pvalue_Nteeth,
     Pvalue_DFSS
   ) %>%
