@@ -218,21 +218,52 @@ run_mvsusie_locus <- function(prefix, ld_dir) {
   overall_pip <- tryCatch(
     {
       if (!is.null(fit$pip)) {
-        as.numeric(fit$pip)
+        
+        pip <- as.numeric(fit$pip)
+        
       } else if (!is.null(fit$alpha)) {
-        1 - apply(1 - fit$alpha, 2, prod)
+        
+        pip <- 1 - apply(
+          1 - fit$alpha,
+          2,
+          prod
+        )
+        
+        pip <- as.numeric(pip)
+        
       } else {
-        rep(NA_real_, nrow(snp_map))
+        
+        pip <- rep(
+          NA_real_,
+          nrow(snp_map)
+        )
       }
+      
+      if (length(pip) != nrow(snp_map)) {
+        warning(
+          "PIP length does not match number of SNPs in ",
+          prefix,
+          "; setting PIP to NA."
+        )
+        
+        pip <- rep(
+          NA_real_,
+          nrow(snp_map)
+        )
+      }
+      
+      pip[pip < 0] <- 0
+      pip[pip > 1] <- 1
+      
+      pip
     },
     error = function(e) {
-      rep(NA_real_, nrow(snp_map))
+      rep(
+        NA_real_,
+        nrow(snp_map)
+      )
     }
   )
-  
-  if (length(overall_pip) != nrow(snp_map)) {
-    overall_pip <- rep(NA_real_, nrow(snp_map))
-  }
   
   ############################
   # Credible set annotation
