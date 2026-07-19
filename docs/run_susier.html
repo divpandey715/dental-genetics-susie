@@ -531,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree074797947c426cb3c5a897e00e78413c304e8410targetblank0747979a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreed74795eed46653c316755f9e2cf992d86e1f4188targetblankd74795ea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/074797947c426cb3c5a897e00e78413c304e8410" target="_blank">0747979</a>
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/d74795eed46653c316755f9e2cf992d86e1f4188" target="_blank">d74795e</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree074797947c426cb3c5a897e00e78413c304e8410targetblank0747979a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreed74795eed46653c316755f9e2cf992d86e1f4188targetblankd74795ea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/074797947c426cb3c5a897e00e78413c304e8410" target="_blank">0747979</a>.
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/d74795eed46653c316755f9e2cf992d86e1f4188" target="_blank">d74795e</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -642,6 +642,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/divpandey715/dental-genetics-susie/blob/d74795eed46653c316755f9e2cf992d86e1f4188/analysis/run_susier.Rmd" target="_blank">d74795e</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-19
+</td>
+<td>
+Clean joint mvSuSiE methods and script links
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/divpandey715/dental-genetics-susie/23ad428574aeec02a3408f043e3230271abc0099/docs/run_susier.html" target="_blank">23ad428</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1187,36 +1221,6 @@ make_nearest_genes &lt;- function(...) {
       any_of(c(&quot;distance_to_gene&quot;, &quot;distance&quot;, &quot;distance_to_nearest_gene&quot;))
     ) %&gt;%
     distinct(MarkerName, .keep_all = TRUE)
-}
-
-make_joint_pip1_table &lt;- function(summary_file, nearest_genes, trait_cols, caption_text) {
-  
-  joint_summary &lt;- read.csv(summary_file)
-  
-  joint_summary_pip1 &lt;- joint_summary %&gt;%
-    filter(PIP == 1) %&gt;%
-    dplyr::select(
-      -any_of(c(
-        &quot;external_gene_name&quot;,
-        &quot;ensembl_gene_id&quot;,
-        &quot;distance_to_gene&quot;,
-        &quot;distance&quot;,
-        &quot;distance_to_nearest_gene&quot;
-      ))
-    ) %&gt;%
-    left_join(nearest_genes, by = &quot;MarkerName&quot;) %&gt;%
-    distinct() %&gt;%
-    dplyr::select(
-      any_of(c(&quot;Locus&quot;, &quot;rsid&quot;, &quot;MarkerName&quot;, &quot;CS&quot;, &quot;PIP&quot;, &quot;Purity&quot;)),
-      external_gene_name,
-      ensembl_gene_id,
-      any_of(c(&quot;distance_to_gene&quot;, &quot;distance&quot;, &quot;distance_to_nearest_gene&quot;)),
-      any_of(trait_cols),
-      everything()
-    ) %&gt;%
-    arrange(Locus, MarkerName)
-  
-  make_dt(joint_summary_pip1, caption_text)
 }</code></pre>
 </div>
 </div>
@@ -1372,24 +1376,49 @@ dfss_positional_mapping %&gt;%
   &quot;No eQTL matches found in the specified tissue: Whole_Blood&quot;
 )</code></pre>
 <pre><code>No eQTL matches found in the specified tissue: Whole_Blood</code></pre>
-<p>Before running joint mvSuSiE-RSS, I aligned the DMFS and Nteeth GWAS
-summary statistics to the same locus-specific EUR LD matrices using the
-corresponding <code>.id_map</code> files to map rsIDs to
-chromosome-position marker names. Z-scores were calculated as
-<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
-prior variance matrix and <code>L = 10</code>.</p>
-<p>The code for this analysis is available here:<br />
-<a
-href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R">07_mvsusie_dmfs_nteeth.R</a></p>
 </div>
+</div>
+<div id="joint-mvsusie-rss-fine-mapping" class="section level1">
+<h1>Joint mvSuSiE-RSS Fine-Mapping</h1>
+<div id="joint-analysis-workflow" class="section level2">
+<h2>Joint analysis workflow</h2>
+<p>For the joint mvSuSiE-RSS analyses, I used the same general workflow
+across all trait pairs and the three-trait analysis:</p>
+<ol style="list-style-type: decimal">
+<li>GWAS summary statistics were aligned to the same locus-specific EUR
+LD matrices.</li>
+<li>The corresponding <code>.id_map</code> files were used to map LD
+rsIDs to chromosome-position marker names.</li>
+<li>Z-scores were calculated as <code>Effect / StdErr</code>.</li>
+<li>mvSuSiE-RSS was run using the same prior variance structure and
+<code>L = 10</code>.</li>
+<li>Joint PIP, credible set assignment, purity, Z-scores, effect
+estimates, standard errors, p-values, sample sizes, and nearest hg19
+gene annotation were summarized.</li>
+</ol>
+<p>For all joint mvSuSiE-RSS analyses, only variants with <strong>PIP =
+1</strong> are displayed in the tables below.</p>
+<p>The mvSuSiE-RSS scripts are available here:</p>
+<ul>
+<li><a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R">DMFS
++ Nteeth: <code>07_mvsusie_dmfs_nteeth.R</code></a></li>
+<li><a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R">DMFS
++ DFSS: <code>11_mvsusie_dmfs_dfss.R</code></a></li>
+<li><a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R">Nteeth
++ DFSS: <code>12_mvsusie_nteeth_dfss.R</code></a></li>
+<li><a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R">DMFS
++ Nteeth + DFSS: <code>13_mvsusie_dmfs_nteeth_dfss.R</code></a></li>
+</ul>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-and-nteeth"
-class="section level1">
-<h1>Joint mvSuSiE Fine-Mapping: DMFS and Nteeth</h1>
+class="section level2">
+<h2>Joint mvSuSiE Fine-Mapping: DMFS and Nteeth</h2>
 <p>This section presents the joint multi-trait fine-mapping results for
-DMFS and Nteeth using mvSuSiE-RSS. Only variants with <strong>PIP =
-1</strong> are displayed, with nearest hg19 gene annotation added from
-the positional mapping results.</p>
+DMFS and Nteeth using mvSuSiE-RSS.</p>
 <pre class="r"><code>nearest_genes_dmfs_nteeth &lt;- make_nearest_genes(
   dmfs_positional_mapping,
   nteeth_positional_mapping
@@ -1440,8 +1469,8 @@ dmfs_nteeth_mvsusie_summary_pip1 %&gt;%
 <div class="datatables html-widget html-fill-item" id="htmlwidget-10aaf1a20840c2a07bf5" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-10aaf1a20840c2a07bf5">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption>Joint mvSuSiE Fine-Mapping Results for DMFS and Nteeth: PIP = 1 with Nearest hg19 Genes<\/caption>","data":[["1","2","3","4","5","6","7","8"],["LD_15_63636878","LD_15_63636878","LD_15_63636878","LD_15_63636878","LD_15_63636878","LD_15_63636878","LD_5_134504407","LD_5_134504407"],["rs1043239","rs2046484","rs72748935","rs34437213","rs2019976","rs7162561","rs10038879","rs888686"],["15:63618110","15:63636878","15:63639416","15:63649331","15:63655680","15:63665765","5:134507859","5:134510772"],[5,2,3,8,7,6,1,2],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[null,"CA12","CA12",null,null,null,"PITX1-AS1","PITX1-AS1"],[null,"ENSG00000074410","ENSG00000074410",null,null,null,"ENSG00000224186","ENSG00000224186"],[null,0,0,null,null,null,0,0],[-4.52272727272727,5.46666666666667,-5.65217391304348,4.03225806451613,-3.96739130434783,3.80645161290323,7.27586206896552,-7.14942528735632],[1.36559139784946,-1.28421052631579,0.785714285714286,-0.166666666666667,0.49,-0.128712871287129,-3.88297872340425,3.8936170212766],[5.425e-06,4.126e-08,1.584e-08,5.805e-05,7.805999999999999e-05,0.0001445,3.854e-13,1.017e-12],[0.1715,0.1987,0.4328,0.8706,0.6276,0.8981,9.843e-05,9.519e-05],[-0.0398,0.0492,-0.052,0.0375,-0.0365,0.0354,0.0633,-0.0622],[0.0127,-0.0122,0.0077,-0.0017,0.0049,-0.0013,-0.0365,0.0366],[0.008800000000000001,0.008999999999999999,0.0092,0.009299999999999999,0.0092,0.009299999999999999,0.008699999999999999,0.008699999999999999],[0.009299999999999999,0.0095,0.0098,0.0102,0.01,0.0101,0.0094,0.0094],[26790,26790,26789,26790,26790,26791,26790,26791],[27946,27947,27948,27947,27947,27947,27948,27948]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Locus<\/th>\n      <th>rsid<\/th>\n      <th>MarkerName<\/th>\n      <th>CS<\/th>\n      <th>PIP<\/th>\n      <th>Purity<\/th>\n      <th>external_gene_name<\/th>\n      <th>ensembl_gene_id<\/th>\n      <th>distance_to_gene<\/th>\n      <th>Z_DMFS<\/th>\n      <th>Z_Nteeth<\/th>\n      <th>Pvalue_DMFS<\/th>\n      <th>Pvalue_Nteeth<\/th>\n      <th>Effect_DMFS<\/th>\n      <th>Effect_Nteeth<\/th>\n      <th>StdErr_DMFS<\/th>\n      <th>StdErr_Nteeth<\/th>\n      <th>N_DMFS<\/th>\n      <th>N_Nteeth<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Blfrtip","buttons":["copy","csv","excel","pdf","print"],"lengthMenu":[[10,25,50,-1],["10","25","50","All"]],"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[4,5,6,9,10,11,12,13,14,15,16,17,18,19]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Locus","targets":1},{"name":"rsid","targets":2},{"name":"MarkerName","targets":3},{"name":"CS","targets":4},{"name":"PIP","targets":5},{"name":"Purity","targets":6},{"name":"external_gene_name","targets":7},{"name":"ensembl_gene_id","targets":8},{"name":"distance_to_gene","targets":9},{"name":"Z_DMFS","targets":10},{"name":"Z_Nteeth","targets":11},{"name":"Pvalue_DMFS","targets":12},{"name":"Pvalue_Nteeth","targets":13},{"name":"Effect_DMFS","targets":14},{"name":"Effect_Nteeth","targets":15},{"name":"StdErr_DMFS","targets":16},{"name":"StdErr_Nteeth","targets":17},{"name":"N_DMFS","targets":18},{"name":"N_Nteeth","targets":19}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div id="top-joint-dmfs-and-nteeth-mvsusie-signals"
-class="section level2">
-<h2>Top joint DMFS and Nteeth mvSuSiE signals</h2>
+class="section level3">
+<h3>Top joint DMFS and Nteeth mvSuSiE signals</h3>
 <pre class="r"><code>dmfs_nteeth_mvsusie_summary_pip1 %&gt;%
   dplyr::select(
     any_of(c(
@@ -1478,24 +1507,13 @@ class="section level2">
 6            &lt;NA&gt;  3.806452 -0.1287129   1.445e-04     8.981e-01
 7 ENSG00000224186  7.275862 -3.8829787   3.854e-13     9.843e-05
 8 ENSG00000224186 -7.149425  3.8936170   1.017e-12     9.519e-05</code></pre>
-<p>For the DMFS and DFSS joint analysis, I used the same mvSuSiE-RSS
-workflow as the DMFS and Nteeth analysis. GWAS summary statistics for
-both traits were aligned to shared locus-specific EUR LD matrices using
-the <code>.id_map</code> files, Z-scores were calculated as
-<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
-prior variance matrix and <code>L = 10</code>.</p>
-<p>The code for this analysis is available here:<br />
-<a
-href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R">11_mvsusie_dmfs_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-and-dfss"
-class="section level1">
-<h1>Joint mvSuSiE Fine-Mapping: DMFS and DFSS</h1>
+class="section level2">
+<h2>Joint mvSuSiE Fine-Mapping: DMFS and DFSS</h2>
 <p>This section presents the joint multi-trait fine-mapping results for
-DMFS and DFSS using mvSuSiE-RSS. Only variants with <strong>PIP =
-1</strong> are displayed, with nearest hg19 gene annotation added from
-the positional mapping results.</p>
+DMFS and DFSS using the same mvSuSiE-RSS workflow.</p>
 <pre class="r"><code>nearest_genes_dmfs_dfss &lt;- make_nearest_genes(
   dmfs_positional_mapping,
   dfss_positional_mapping
@@ -1546,8 +1564,8 @@ dmfs_dfss_mvsusie_summary_pip1 %&gt;%
 <div class="datatables html-widget html-fill-item" id="htmlwidget-4bf0e09102cee9d53b00" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-4bf0e09102cee9d53b00">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption>Joint mvSuSiE Fine-Mapping Results for DMFS and DFSS: PIP = 1 with Nearest hg19 Genes<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],["LD_5_134504407","LD_5_134504407","LD_5_134507139","LD_5_134507139","LD_5_134507859","LD_5_134507859","LD_5_134508559","LD_5_134508559","LD_5_134509677","LD_5_134509677","LD_5_134509987","LD_5_134509987","LD_5_134510772","LD_5_134510772"],["rs10038879","rs888686","rs10038879","rs888686","rs10038879","rs888686","rs10038879","rs888686","rs10038879","rs888686","rs10038879","rs888686","rs10038879","rs888686"],["5:134507859","5:134510772","5:134507859","5:134510772","5:134507859","5:134510772","5:134507859","5:134510772","5:134507859","5:134510772","5:134507859","5:134510772","5:134507859","5:134510772"],[1,2,1,2,1,2,1,2,1,2,1,2,1,2],[1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1],["PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1","PITX1-AS1"],["ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186","ENSG00000224186"],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632,7.27586206896552,-7.14942528735632],[6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091,6.54545454545454,-6.15909090909091],[3.854e-13,1.017e-12,3.854e-13,1.017e-12,3.854e-13,1.017e-12,3.854e-13,1.017e-12,3.854e-13,1.017e-12,3.854e-13,1.017e-12,3.854e-13,1.017e-12],[5.317e-11,6.238e-10,5.317e-11,6.238e-10,5.317e-11,6.238e-10,5.317e-11,6.238e-10,5.317e-11,6.238e-10,5.317e-11,6.238e-10,5.317e-11,6.238e-10],[0.0633,-0.0622,0.0633,-0.0622,0.0633,-0.0622,0.0633,-0.0622,0.0633,-0.0622,0.0633,-0.0622,0.0633,-0.0622],[0.0576,-0.0542,0.0576,-0.0542,0.0576,-0.0542,0.0576,-0.0542,0.0576,-0.0542,0.0576,-0.0542,0.0576,-0.0542],[0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999,0.008699999999999999],[0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001,0.008800000000000001],[26790,26791,26790,26791,26790,26791,26790,26791,26790,26791,26790,26791,26790,26791],[26532,26532,26532,26532,26532,26532,26532,26532,26532,26532,26532,26532,26532,26532]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Locus<\/th>\n      <th>rsid<\/th>\n      <th>MarkerName<\/th>\n      <th>CS<\/th>\n      <th>PIP<\/th>\n      <th>Purity<\/th>\n      <th>external_gene_name<\/th>\n      <th>ensembl_gene_id<\/th>\n      <th>distance_to_gene<\/th>\n      <th>Z_DMFS<\/th>\n      <th>Z_DFSS<\/th>\n      <th>Pvalue_DMFS<\/th>\n      <th>Pvalue_DFSS<\/th>\n      <th>Effect_DMFS<\/th>\n      <th>Effect_DFSS<\/th>\n      <th>StdErr_DMFS<\/th>\n      <th>StdErr_DFSS<\/th>\n      <th>N_DMFS<\/th>\n      <th>N_DFSS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Blfrtip","buttons":["copy","csv","excel","pdf","print"],"lengthMenu":[[10,25,50,-1],["10","25","50","All"]],"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[4,5,6,9,10,11,12,13,14,15,16,17,18,19]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Locus","targets":1},{"name":"rsid","targets":2},{"name":"MarkerName","targets":3},{"name":"CS","targets":4},{"name":"PIP","targets":5},{"name":"Purity","targets":6},{"name":"external_gene_name","targets":7},{"name":"ensembl_gene_id","targets":8},{"name":"distance_to_gene","targets":9},{"name":"Z_DMFS","targets":10},{"name":"Z_DFSS","targets":11},{"name":"Pvalue_DMFS","targets":12},{"name":"Pvalue_DFSS","targets":13},{"name":"Effect_DMFS","targets":14},{"name":"Effect_DFSS","targets":15},{"name":"StdErr_DMFS","targets":16},{"name":"StdErr_DFSS","targets":17},{"name":"N_DMFS","targets":18},{"name":"N_DFSS","targets":19}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div id="top-joint-dmfs-and-dfss-mvsusie-signals"
-class="section level2">
-<h2>Top joint DMFS and DFSS mvSuSiE signals</h2>
+class="section level3">
+<h3>Top joint DMFS and DFSS mvSuSiE signals</h3>
 <pre class="r"><code>dmfs_dfss_mvsusie_summary_pip1 %&gt;%
   dplyr::select(
     any_of(c(
@@ -1596,24 +1614,13 @@ class="section level2">
 12 ENSG00000224186 -7.149425 -6.159091   1.017e-12   6.238e-10
 13 ENSG00000224186  7.275862  6.545455   3.854e-13   5.317e-11
 14 ENSG00000224186 -7.149425 -6.159091   1.017e-12   6.238e-10</code></pre>
-<p>For the Nteeth and DFSS joint analysis, I followed the same pairwise
-mvSuSiE-RSS structure used for the other trait pairs. GWAS summary
-statistics were aligned to locus-specific EUR LD matrices using the
-<code>.id_map</code> files, Z-scores were calculated as
-<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
-prior variance matrix and <code>L = 10</code>.</p>
-<p>The code for this analysis is available here:<br />
-<a
-href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R">12_mvsusie_nteeth_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-nteeth-and-dfss"
-class="section level1">
-<h1>Joint mvSuSiE Fine-Mapping: Nteeth and DFSS</h1>
+class="section level2">
+<h2>Joint mvSuSiE Fine-Mapping: Nteeth and DFSS</h2>
 <p>This section presents the joint multi-trait fine-mapping results for
-Nteeth and DFSS using mvSuSiE-RSS. Only variants with <strong>PIP =
-1</strong> are displayed, with nearest hg19 gene annotation added from
-the positional mapping results.</p>
+Nteeth and DFSS using the same mvSuSiE-RSS workflow.</p>
 <pre class="r"><code>nearest_genes_nteeth_dfss &lt;- make_nearest_genes(
   nteeth_positional_mapping,
   dfss_positional_mapping
@@ -1664,8 +1671,8 @@ nteeth_dfss_mvsusie_summary_pip1 %&gt;%
 <div class="datatables html-widget html-fill-item" id="htmlwidget-1236f7413f84a8a26275" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-1236f7413f84a8a26275">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption>Joint mvSuSiE Fine-Mapping Results for Nteeth and DFSS: PIP = 1 with Nearest hg19 Genes<\/caption>","data":[["1","2","3","4"],["LD_1_81674318","LD_1_81674318","LD_5_134504407","LD_5_134504407"],["rs75001755","rs72711690","rs10038879","rs888686"],["1:81699416","1:81707298","5:134507859","5:134510772"],[1,2,1,2],[1,1,1,1],[1,1,1,1],["ADGRL2","ADGRL2","PITX1-AS1","PITX1-AS1"],["ENSG00000117114","ENSG00000117114","ENSG00000224186","ENSG00000224186"],[72428,64546,0,0],[-1.91850220264317,1.76688453159041,-3.88297872340425,3.8936170212766],[4.15481171548117,-3.86099585062241,6.54545454545454,-6.15909090909091],[0.05517,0.07711999999999999,9.843e-05,9.519e-05],[3.291e-05,0.000112,5.317e-11,6.238e-10],[-0.0871,0.08110000000000001,-0.0365,0.0366],[0.1986,-0.1861,0.0576,-0.0542],[0.0454,0.0459,0.0094,0.0094],[0.0478,0.0482,0.008800000000000001,0.008800000000000001],[14648,14646,27948,27948],[13233,13231,26532,26532]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Locus<\/th>\n      <th>rsid<\/th>\n      <th>MarkerName<\/th>\n      <th>CS<\/th>\n      <th>PIP<\/th>\n      <th>Purity<\/th>\n      <th>external_gene_name<\/th>\n      <th>ensembl_gene_id<\/th>\n      <th>distance_to_gene<\/th>\n      <th>Z_Nteeth<\/th>\n      <th>Z_DFSS<\/th>\n      <th>Pvalue_Nteeth<\/th>\n      <th>Pvalue_DFSS<\/th>\n      <th>Effect_Nteeth<\/th>\n      <th>Effect_DFSS<\/th>\n      <th>StdErr_Nteeth<\/th>\n      <th>StdErr_DFSS<\/th>\n      <th>N_Nteeth<\/th>\n      <th>N_DFSS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Blfrtip","buttons":["copy","csv","excel","pdf","print"],"lengthMenu":[[10,25,50,-1],["10","25","50","All"]],"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[4,5,6,9,10,11,12,13,14,15,16,17,18,19]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Locus","targets":1},{"name":"rsid","targets":2},{"name":"MarkerName","targets":3},{"name":"CS","targets":4},{"name":"PIP","targets":5},{"name":"Purity","targets":6},{"name":"external_gene_name","targets":7},{"name":"ensembl_gene_id","targets":8},{"name":"distance_to_gene","targets":9},{"name":"Z_Nteeth","targets":10},{"name":"Z_DFSS","targets":11},{"name":"Pvalue_Nteeth","targets":12},{"name":"Pvalue_DFSS","targets":13},{"name":"Effect_Nteeth","targets":14},{"name":"Effect_DFSS","targets":15},{"name":"StdErr_Nteeth","targets":16},{"name":"StdErr_DFSS","targets":17},{"name":"N_Nteeth","targets":18},{"name":"N_DFSS","targets":19}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div id="top-joint-nteeth-and-dfss-mvsusie-signals"
-class="section level2">
-<h2>Top joint Nteeth and DFSS mvSuSiE signals</h2>
+class="section level3">
+<h3>Top joint Nteeth and DFSS mvSuSiE signals</h3>
 <pre class="r"><code>nteeth_dfss_mvsusie_summary_pip1 %&gt;%
   dplyr::select(
     any_of(c(
@@ -1694,25 +1701,13 @@ class="section level2">
 2 ENSG00000117114  1.766885 -3.860996     7.712e-02   1.120e-04
 3 ENSG00000224186 -3.882979  6.545455     9.843e-05   5.317e-11
 4 ENSG00000224186  3.893617 -6.159091     9.519e-05   6.238e-10</code></pre>
-<p>For the three-trait mvSuSiE-RSS analysis, I extended the same joint
-fine-mapping framework to DMFS, Nteeth, and DFSS together. GWAS summary
-statistics for all three traits were aligned to the same locus-specific
-EUR LD matrices using the corresponding <code>.id_map</code> files.
-Z-scores were calculated as <code>Effect / StdErr</code>, and
-mvSuSiE-RSS was run using a three-trait prior variance matrix and
-<code>L = 10</code>.</p>
-<p>The code for this analysis is available here:<br />
-<a
-href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R">13_mvsusie_dmfs_nteeth_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-nteeth-and-dfss"
-class="section level1">
-<h1>Joint mvSuSiE Fine-Mapping: DMFS, Nteeth, and DFSS</h1>
-<p>This section presents the joint multi-trait fine-mapping results for
-DMFS, Nteeth, and DFSS using mvSuSiE-RSS. Only variants with <strong>PIP
-= 1</strong> are displayed, with nearest hg19 gene annotation added from
-the positional mapping results.</p>
+class="section level2">
+<h2>Joint mvSuSiE Fine-Mapping: DMFS, Nteeth, and DFSS</h2>
+<p>This section presents the three-trait joint mvSuSiE-RSS fine-mapping
+results for DMFS, Nteeth, and DFSS.</p>
 <pre class="r"><code>nearest_genes_all_three &lt;- make_nearest_genes(
   dmfs_positional_mapping,
   nteeth_positional_mapping,
@@ -1769,8 +1764,8 @@ dmfs_nteeth_dfss_mvsusie_summary_pip1 %&gt;%
 <div class="datatables html-widget html-fill-item" id="htmlwidget-edbb4b9c851a1ec8b337" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-edbb4b9c851a1ec8b337">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption>Joint mvSuSiE Fine-Mapping Results for DMFS, Nteeth, and DFSS: PIP = 1 with Nearest hg19 Genes<\/caption>","data":[["1","2","3","4"],["LD_1_81674318","LD_1_81674318","LD_5_134504407","LD_5_134504407"],["rs75001755","rs72711690","rs10038879","rs888686"],["1:81699416","1:81707298","5:134507859","5:134510772"],[1,2,1,2],[1,1,1,1],[1,1,1,1],["ADGRL2","ADGRL2","PITX1-AS1","PITX1-AS1"],["ENSG00000117114","ENSG00000117114","ENSG00000224186","ENSG00000224186"],[72428,64546,0,0],[3.83720930232558,-3.74004192872117,7.27586206896552,-7.14942528735632],[-1.91850220264317,1.76688453159041,-3.88297872340425,3.8936170212766],[4.15481171548117,-3.86099585062241,6.54545454545454,-6.15909090909091],[0.0001254,0.0001836,3.854e-13,1.017e-12],[0.05517,0.07711999999999999,9.843e-05,9.519e-05],[3.291e-05,0.000112,5.317e-11,6.238e-10],[0.1815,-0.1784,0.0633,-0.0622],[-0.0871,0.08110000000000001,-0.0365,0.0366],[0.1986,-0.1861,0.0576,-0.0542],[0.0473,0.0477,0.008699999999999999,0.008699999999999999],[0.0454,0.0459,0.0094,0.0094],[0.0478,0.0482,0.008800000000000001,0.008800000000000001],[13493,13491,26790,26791],[14648,14646,27948,27948],[13233,13231,26532,26532]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Locus<\/th>\n      <th>rsid<\/th>\n      <th>MarkerName<\/th>\n      <th>CS<\/th>\n      <th>PIP<\/th>\n      <th>Purity<\/th>\n      <th>external_gene_name<\/th>\n      <th>ensembl_gene_id<\/th>\n      <th>distance_to_gene<\/th>\n      <th>Z_DMFS<\/th>\n      <th>Z_Nteeth<\/th>\n      <th>Z_DFSS<\/th>\n      <th>Pvalue_DMFS<\/th>\n      <th>Pvalue_Nteeth<\/th>\n      <th>Pvalue_DFSS<\/th>\n      <th>Effect_DMFS<\/th>\n      <th>Effect_Nteeth<\/th>\n      <th>Effect_DFSS<\/th>\n      <th>StdErr_DMFS<\/th>\n      <th>StdErr_Nteeth<\/th>\n      <th>StdErr_DFSS<\/th>\n      <th>N_DMFS<\/th>\n      <th>N_Nteeth<\/th>\n      <th>N_DFSS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Blfrtip","buttons":["copy","csv","excel","pdf","print"],"lengthMenu":[[10,25,50,-1],["10","25","50","All"]],"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[4,5,6,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Locus","targets":1},{"name":"rsid","targets":2},{"name":"MarkerName","targets":3},{"name":"CS","targets":4},{"name":"PIP","targets":5},{"name":"Purity","targets":6},{"name":"external_gene_name","targets":7},{"name":"ensembl_gene_id","targets":8},{"name":"distance_to_gene","targets":9},{"name":"Z_DMFS","targets":10},{"name":"Z_Nteeth","targets":11},{"name":"Z_DFSS","targets":12},{"name":"Pvalue_DMFS","targets":13},{"name":"Pvalue_Nteeth","targets":14},{"name":"Pvalue_DFSS","targets":15},{"name":"Effect_DMFS","targets":16},{"name":"Effect_Nteeth","targets":17},{"name":"Effect_DFSS","targets":18},{"name":"StdErr_DMFS","targets":19},{"name":"StdErr_Nteeth","targets":20},{"name":"StdErr_DFSS","targets":21},{"name":"N_DMFS","targets":22},{"name":"N_Nteeth","targets":23},{"name":"N_DFSS","targets":24}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div id="top-joint-dmfs-nteeth-and-dfss-mvsusie-signals"
-class="section level2">
-<h2>Top joint DMFS, Nteeth, and DFSS mvSuSiE signals</h2>
+class="section level3">
+<h3>Top joint DMFS, Nteeth, and DFSS mvSuSiE signals</h3>
 <pre class="r"><code>dmfs_nteeth_dfss_mvsusie_summary_pip1 %&gt;%
   dplyr::select(
     any_of(c(
@@ -1848,6 +1843,7 @@ loaded via a namespace (and not attached):
 [37] rstudioapi_0.18.0 lifecycle_1.0.5   vctrs_0.6.5       evaluate_1.0.5   
 [41] glue_1.8.0        whisker_0.4.1     rmarkdown_2.29    httr_1.4.8       
 [45] tools_4.3.2       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+</div>
 </div>
 </div>
 </div>
