@@ -69,36 +69,6 @@ make_nearest_genes <- function(...) {
     ) %>%
     distinct(MarkerName, .keep_all = TRUE)
 }
-
-make_joint_pip1_table <- function(summary_file, nearest_genes, trait_cols, caption_text) {
-  
-  joint_summary <- read.csv(summary_file)
-  
-  joint_summary_pip1 <- joint_summary %>%
-    filter(PIP == 1) %>%
-    dplyr::select(
-      -any_of(c(
-        "external_gene_name",
-        "ensembl_gene_id",
-        "distance_to_gene",
-        "distance",
-        "distance_to_nearest_gene"
-      ))
-    ) %>%
-    left_join(nearest_genes, by = "MarkerName") %>%
-    distinct() %>%
-    dplyr::select(
-      any_of(c("Locus", "rsid", "MarkerName", "CS", "PIP", "Purity")),
-      external_gene_name,
-      ensembl_gene_id,
-      any_of(c("distance_to_gene", "distance", "distance_to_nearest_gene")),
-      any_of(trait_cols),
-      everything()
-    ) %>%
-    arrange(Locus, MarkerName)
-  
-  make_dt(joint_summary_pip1, caption_text)
-}
 ```
 
 # DMFS
@@ -255,14 +225,30 @@ cat(
 )
 ```
 
-Before running joint mvSuSiE-RSS, I aligned the DMFS and Nteeth GWAS summary statistics to the same locus-specific EUR LD matrices using the corresponding `.id_map` files to map rsIDs to chromosome-position marker names. Z-scores were calculated as `Effect / StdErr`, and mvSuSiE-RSS was run using the same prior variance matrix and `L = 10`.
+# Joint mvSuSiE-RSS Fine-Mapping
 
-The code for this analysis is available here:  
-[07_mvsusie_dmfs_nteeth.R](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
+## Joint analysis workflow
 
-# Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
+For the joint mvSuSiE-RSS analyses, I used the same general workflow across all trait pairs and the three-trait analysis:
 
-This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+1. GWAS summary statistics were aligned to the same locus-specific EUR LD matrices.
+2. The corresponding `.id_map` files were used to map LD rsIDs to chromosome-position marker names.
+3. Z-scores were calculated as `Effect / StdErr`.
+4. mvSuSiE-RSS was run using the same prior variance structure and `L = 10`.
+5. Joint PIP, credible set assignment, purity, Z-scores, effect estimates, standard errors, p-values, sample sizes, and nearest hg19 gene annotation were summarized.
+
+For all joint mvSuSiE-RSS analyses, only variants with **PIP = 1** are displayed in the tables below.
+
+The mvSuSiE-RSS scripts are available here:
+
+- [DMFS + Nteeth: `07_mvsusie_dmfs_nteeth.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
+- [DMFS + DFSS: `11_mvsusie_dmfs_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
+- [Nteeth + DFSS: `12_mvsusie_nteeth_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R)
+- [DMFS + Nteeth + DFSS: `13_mvsusie_dmfs_nteeth_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R)
+
+## Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
+
+This section presents the joint multi-trait fine-mapping results for DMFS and Nteeth using mvSuSiE-RSS.
 
 ```{r joint-mvsusie-dmfs-nteeth, echo=TRUE, message=FALSE, warning=FALSE}
 nearest_genes_dmfs_nteeth <- make_nearest_genes(
@@ -314,7 +300,7 @@ dmfs_nteeth_mvsusie_summary_pip1 %>%
   make_dt("Joint mvSuSiE Fine-Mapping Results for DMFS and Nteeth: PIP = 1 with Nearest hg19 Genes")
 ```
 
-## Top joint DMFS and Nteeth mvSuSiE signals
+### Top joint DMFS and Nteeth mvSuSiE signals
 
 ```{r top-joint-mvsusie-dmfs-nteeth, echo=TRUE}
 dmfs_nteeth_mvsusie_summary_pip1 %>%
@@ -337,14 +323,9 @@ dmfs_nteeth_mvsusie_summary_pip1 %>%
   head(20)
 ```
 
-For the DMFS and DFSS joint analysis, I used the same mvSuSiE-RSS workflow as the DMFS and Nteeth analysis. GWAS summary statistics for both traits were aligned to shared locus-specific EUR LD matrices using the `.id_map` files, Z-scores were calculated as `Effect / StdErr`, and mvSuSiE-RSS was run using the same prior variance matrix and `L = 10`.
+## Joint mvSuSiE Fine-Mapping: DMFS and DFSS
 
-The code for this analysis is available here:  
-[11_mvsusie_dmfs_dfss.R](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
-
-# Joint mvSuSiE Fine-Mapping: DMFS and DFSS
-
-This section presents the joint multi-trait fine-mapping results for DMFS and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the joint multi-trait fine-mapping results for DMFS and DFSS using the same mvSuSiE-RSS workflow.
 
 ```{r joint-mvsusie-dmfs-dfss, echo=TRUE, message=FALSE, warning=FALSE}
 nearest_genes_dmfs_dfss <- make_nearest_genes(
@@ -396,7 +377,7 @@ dmfs_dfss_mvsusie_summary_pip1 %>%
   make_dt("Joint mvSuSiE Fine-Mapping Results for DMFS and DFSS: PIP = 1 with Nearest hg19 Genes")
 ```
 
-## Top joint DMFS and DFSS mvSuSiE signals
+### Top joint DMFS and DFSS mvSuSiE signals
 
 ```{r top-joint-mvsusie-dmfs-dfss, echo=TRUE}
 dmfs_dfss_mvsusie_summary_pip1 %>%
@@ -419,14 +400,9 @@ dmfs_dfss_mvsusie_summary_pip1 %>%
   head(20)
 ```
 
-For the Nteeth and DFSS joint analysis, I followed the same pairwise mvSuSiE-RSS structure used for the other trait pairs. GWAS summary statistics were aligned to locus-specific EUR LD matrices using the `.id_map` files, Z-scores were calculated as `Effect / StdErr`, and mvSuSiE-RSS was run using the same prior variance matrix and `L = 10`.
+## Joint mvSuSiE Fine-Mapping: Nteeth and DFSS
 
-The code for this analysis is available here:  
-[12_mvsusie_nteeth_dfss.R](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R)
-
-# Joint mvSuSiE Fine-Mapping: Nteeth and DFSS
-
-This section presents the joint multi-trait fine-mapping results for Nteeth and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the joint multi-trait fine-mapping results for Nteeth and DFSS using the same mvSuSiE-RSS workflow.
 
 ```{r joint-mvsusie-nteeth-dfss, echo=TRUE, message=FALSE, warning=FALSE}
 nearest_genes_nteeth_dfss <- make_nearest_genes(
@@ -478,7 +454,7 @@ nteeth_dfss_mvsusie_summary_pip1 %>%
   make_dt("Joint mvSuSiE Fine-Mapping Results for Nteeth and DFSS: PIP = 1 with Nearest hg19 Genes")
 ```
 
-## Top joint Nteeth and DFSS mvSuSiE signals
+### Top joint Nteeth and DFSS mvSuSiE signals
 
 ```{r top-joint-mvsusie-nteeth-dfss, echo=TRUE}
 nteeth_dfss_mvsusie_summary_pip1 %>%
@@ -501,14 +477,9 @@ nteeth_dfss_mvsusie_summary_pip1 %>%
   head(20)
 ```
 
-For the three-trait mvSuSiE-RSS analysis, I extended the same joint fine-mapping framework to DMFS, Nteeth, and DFSS together. GWAS summary statistics for all three traits were aligned to the same locus-specific EUR LD matrices using the corresponding `.id_map` files. Z-scores were calculated as `Effect / StdErr`, and mvSuSiE-RSS was run using a three-trait prior variance matrix and `L = 10`.
+## Joint mvSuSiE Fine-Mapping: DMFS, Nteeth, and DFSS
 
-The code for this analysis is available here:  
-[13_mvsusie_dmfs_nteeth_dfss.R](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R)
-
-# Joint mvSuSiE Fine-Mapping: DMFS, Nteeth, and DFSS
-
-This section presents the joint multi-trait fine-mapping results for DMFS, Nteeth, and DFSS using mvSuSiE-RSS. Only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+This section presents the three-trait joint mvSuSiE-RSS fine-mapping results for DMFS, Nteeth, and DFSS.
 
 ```{r joint-mvsusie-all-three, echo=TRUE, message=FALSE, warning=FALSE}
 nearest_genes_all_three <- make_nearest_genes(
@@ -566,7 +537,7 @@ dmfs_nteeth_dfss_mvsusie_summary_pip1 %>%
   make_dt("Joint mvSuSiE Fine-Mapping Results for DMFS, Nteeth, and DFSS: PIP = 1 with Nearest hg19 Genes")
 ```
 
-## Top joint DMFS, Nteeth, and DFSS mvSuSiE signals
+### Top joint DMFS, Nteeth, and DFSS mvSuSiE signals
 
 ```{r top-joint-mvsusie-all-three, echo=TRUE}
 dmfs_nteeth_dfss_mvsusie_summary_pip1 %>%
