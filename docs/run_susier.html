@@ -11,7 +11,7 @@
 
 <meta name="author" content="Divya Pandey" />
 
-<meta name="date" content="2026-07-14" />
+<meta name="date" content="2026-07-19" />
 
 <title>SuSiE-RSS Fine-Mapping for Dental Traits</title>
 
@@ -371,7 +371,7 @@ div.tocify {
 <h1 class="title toc-ignore">SuSiE-RSS Fine-Mapping for Dental
 Traits</h1>
 <h4 class="author">Divya Pandey</h4>
-<h4 class="date">2026-07-14</h4>
+<h4 class="date">2026-07-19</h4>
 
 </div>
 
@@ -400,7 +400,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-07-14
+<strong>Last updated:</strong> 2026-07-19
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -531,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree6d4b2c1e4af86211edc78c96d63e292b1dca10b0targetblank6d4b2c1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree074797947c426cb3c5a897e00e78413c304e8410targetblank0747979a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/6d4b2c1e4af86211edc78c96d63e292b1dca10b0" target="_blank">6d4b2c1</a>
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/074797947c426cb3c5a897e00e78413c304e8410" target="_blank">0747979</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree6d4b2c1e4af86211edc78c96d63e292b1dca10b0targetblank6d4b2c1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree074797947c426cb3c5a897e00e78413c304e8410targetblank0747979a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/6d4b2c1e4af86211edc78c96d63e292b1dca10b0" target="_blank">6d4b2c1</a>.
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/074797947c426cb3c5a897e00e78413c304e8410" target="_blank">0747979</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -642,6 +642,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/divpandey715/dental-genetics-susie/blob/074797947c426cb3c5a897e00e78413c304e8410/analysis/run_susier.Rmd" target="_blank">0747979</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-19
+</td>
+<td>
+Add mvSuSiE method descriptions and script links
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/divpandey715/dental-genetics-susie/98dc413717dd9f6e7144787742274b5996f90223/docs/run_susier.html" target="_blank">98dc413</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1338,6 +1372,15 @@ dfss_positional_mapping %&gt;%
   &quot;No eQTL matches found in the specified tissue: Whole_Blood&quot;
 )</code></pre>
 <pre><code>No eQTL matches found in the specified tissue: Whole_Blood</code></pre>
+<p>Before running joint mvSuSiE-RSS, I aligned the DMFS and Nteeth GWAS
+summary statistics to the same locus-specific EUR LD matrices using the
+corresponding <code>.id_map</code> files to map rsIDs to
+chromosome-position marker names. Z-scores were calculated as
+<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
+prior variance matrix and <code>L = 10</code>.</p>
+<p>The code for this analysis is available here:<br />
+<a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R">07_mvsusie_dmfs_nteeth.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-and-nteeth"
@@ -1435,6 +1478,15 @@ class="section level2">
 6            &lt;NA&gt;  3.806452 -0.1287129   1.445e-04     8.981e-01
 7 ENSG00000224186  7.275862 -3.8829787   3.854e-13     9.843e-05
 8 ENSG00000224186 -7.149425  3.8936170   1.017e-12     9.519e-05</code></pre>
+<p>For the DMFS and DFSS joint analysis, I used the same mvSuSiE-RSS
+workflow as the DMFS and Nteeth analysis. GWAS summary statistics for
+both traits were aligned to shared locus-specific EUR LD matrices using
+the <code>.id_map</code> files, Z-scores were calculated as
+<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
+prior variance matrix and <code>L = 10</code>.</p>
+<p>The code for this analysis is available here:<br />
+<a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R">11_mvsusie_dmfs_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-and-dfss"
@@ -1544,6 +1596,15 @@ class="section level2">
 12 ENSG00000224186 -7.149425 -6.159091   1.017e-12   6.238e-10
 13 ENSG00000224186  7.275862  6.545455   3.854e-13   5.317e-11
 14 ENSG00000224186 -7.149425 -6.159091   1.017e-12   6.238e-10</code></pre>
+<p>For the Nteeth and DFSS joint analysis, I followed the same pairwise
+mvSuSiE-RSS structure used for the other trait pairs. GWAS summary
+statistics were aligned to locus-specific EUR LD matrices using the
+<code>.id_map</code> files, Z-scores were calculated as
+<code>Effect / StdErr</code>, and mvSuSiE-RSS was run using the same
+prior variance matrix and <code>L = 10</code>.</p>
+<p>The code for this analysis is available here:<br />
+<a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R">12_mvsusie_nteeth_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-nteeth-and-dfss"
@@ -1633,6 +1694,16 @@ class="section level2">
 2 ENSG00000117114  1.766885 -3.860996     7.712e-02   1.120e-04
 3 ENSG00000224186 -3.882979  6.545455     9.843e-05   5.317e-11
 4 ENSG00000224186  3.893617 -6.159091     9.519e-05   6.238e-10</code></pre>
+<p>For the three-trait mvSuSiE-RSS analysis, I extended the same joint
+fine-mapping framework to DMFS, Nteeth, and DFSS together. GWAS summary
+statistics for all three traits were aligned to the same locus-specific
+EUR LD matrices using the corresponding <code>.id_map</code> files.
+Z-scores were calculated as <code>Effect / StdErr</code>, and
+mvSuSiE-RSS was run using a three-trait prior variance matrix and
+<code>L = 10</code>.</p>
+<p>The code for this analysis is available here:<br />
+<a
+href="https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R">13_mvsusie_dmfs_nteeth_dfss.R</a></p>
 </div>
 </div>
 <div id="joint-mvsusie-fine-mapping-dmfs-nteeth-and-dfss"
