@@ -531,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreed74795eed46653c316755f9e2cf992d86e1f4188targetblankd74795ea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree5aa3b212d99058cdd6bdcec001dd943413b531f0targetblank5aa3b21a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/d74795eed46653c316755f9e2cf992d86e1f4188" target="_blank">d74795e</a>
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/5aa3b212d99058cdd6bdcec001dd943413b531f0" target="_blank">5aa3b21</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreed74795eed46653c316755f9e2cf992d86e1f4188targetblankd74795ea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree5aa3b212d99058cdd6bdcec001dd943413b531f0targetblank5aa3b21a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/d74795eed46653c316755f9e2cf992d86e1f4188" target="_blank">d74795e</a>.
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/5aa3b212d99058cdd6bdcec001dd943413b531f0" target="_blank">5aa3b21</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -642,6 +642,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/divpandey715/dental-genetics-susie/blob/5aa3b212d99058cdd6bdcec001dd943413b531f0/analysis/run_susier.Rmd" target="_blank">5aa3b21</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-19
+</td>
+<td>
+Add GWAS data source and clean joint mvSuSiE methods
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/divpandey715/dental-genetics-susie/e02ed845f3c26d1a1a1e5de4192fb2e5c9f29b40/docs/run_susier.html" target="_blank">e02ed84</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1144,12 +1178,24 @@ Render DMFS SuSiE workflowr page with code
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary
-statistics and LD matrices.</p>
+<p>This analysis applies SuSiE-RSS and mvSuSiE-RSS fine-mapping to
+dental GWAS summary statistics and locus-specific LD matrices.</p>
+<p>The GWAS summary statistics used in this project come from Shungin et
+al., <strong>“Genome-wide analysis of dental caries and periodontitis
+combining clinical and self-reported data,”</strong> published in
+<em>Nature Communications</em> in 2019. This study analyzed dental
+caries and periodontal traits using clinical measures from the GLIDE
+consortium and self-reported oral health traits from UK Biobank. The
+clinical dental traits used in this fine-mapping workflow include
+<strong>DMFS</strong>, <strong>DFSS</strong>, and
+<strong>Nteeth</strong>.</p>
+<p>Article: <a
+href="https://www.nature.com/articles/s41467-019-10630-1">Shungin et
+al. 2019, Nature Communications</a></p>
 <p>The current workflow is implemented for <strong>DMFS, Nteeth, and
 DFSS</strong> and includes:</p>
-<div id="dmfs" class="section level3">
-<h3>DMFS</h3>
+<div id="single-trait-susie-rss" class="section level3">
+<h3>Single-trait SuSiE-RSS</h3>
 <ol style="list-style-type: decimal">
 <li>SuSiE credible set results<br />
 </li>
@@ -1158,28 +1204,8 @@ DFSS</strong> and includes:</p>
 <li>eQTL colocalization summary</li>
 </ol>
 </div>
-<div id="nteeth" class="section level3">
-<h3>Nteeth</h3>
-<ol style="list-style-type: decimal">
-<li>SuSiE credible set results<br />
-</li>
-<li>Positional mapping to nearest hg19 genes<br />
-</li>
-<li>eQTL colocalization summary</li>
-</ol>
-</div>
-<div id="dfss" class="section level3">
-<h3>DFSS</h3>
-<ol style="list-style-type: decimal">
-<li>SuSiE credible set results<br />
-</li>
-<li>Positional mapping to nearest hg19 genes<br />
-</li>
-<li>eQTL colocalization summary</li>
-</ol>
-</div>
-<div id="joint-mvsusie" class="section level3">
-<h3>Joint mvSuSiE</h3>
+<div id="joint-mvsusie-rss" class="section level3">
+<h3>Joint mvSuSiE-RSS</h3>
 <ol style="list-style-type: decimal">
 <li>DMFS + Nteeth<br />
 </li>
@@ -1189,7 +1215,7 @@ DFSS</strong> and includes:</p>
 </li>
 <li>DMFS + Nteeth + DFSS</li>
 </ol>
-<p>For joint mvSuSiE analyses, only variants with <strong>PIP =
+<p>For joint mvSuSiE-RSS analyses, only variants with <strong>PIP =
 1</strong> are displayed, with nearest hg19 gene annotation added from
 the positional mapping results.</p>
 <pre class="r"><code>library(dplyr)
@@ -1224,7 +1250,7 @@ make_nearest_genes &lt;- function(...) {
 }</code></pre>
 </div>
 </div>
-<div id="dmfs-1" class="section level1">
+<div id="dmfs" class="section level1">
 <h1>DMFS</h1>
 <div id="dmfs-susie-credible-set-results" class="section level2">
 <h2>DMFS SuSiE credible set results</h2>
@@ -1276,7 +1302,7 @@ cat(dmfs_eqtl_summary)</code></pre>
 <pre><code>No eQTL matches found in the specified tissue: Whole_Blood</code></pre>
 </div>
 </div>
-<div id="nteeth-1" class="section level1">
+<div id="nteeth" class="section level1">
 <h1>Nteeth</h1>
 <div id="nteeth-susie-credible-set-results" class="section level2">
 <h2>Nteeth SuSiE credible set results</h2>
@@ -1328,7 +1354,7 @@ cat(nteeth_eqtl_summary)</code></pre>
 <pre><code>No eQTL matches found in the specified tissue: Whole_Blood</code></pre>
 </div>
 </div>
-<div id="dfss-1" class="section level1">
+<div id="dfss" class="section level1">
 <h1>DFSS</h1>
 <div id="dfss-susie-credible-set-results" class="section level2">
 <h2>DFSS SuSiE credible set results</h2>
