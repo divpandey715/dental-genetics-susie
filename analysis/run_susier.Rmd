@@ -7,36 +7,28 @@ output: workflowr::wflow_html
 
 ## Overview
 
-This analysis applies SuSiE-RSS fine-mapping to dental GWAS summary statistics and LD matrices.
+This analysis applies SuSiE-RSS and mvSuSiE-RSS fine-mapping to dental GWAS summary statistics and locus-specific LD matrices.
+
+The GWAS summary statistics used in this project come from Shungin et al., **“Genome-wide analysis of dental caries and periodontitis combining clinical and self-reported data,”** published in *Nature Communications* in 2019. This study analyzed dental caries and periodontal traits using clinical measures from the GLIDE consortium and self-reported oral health traits from UK Biobank. The clinical dental traits used in this fine-mapping workflow include **DMFS**, **DFSS**, and **Nteeth**.
+
+Article: [Shungin et al. 2019, Nature Communications](https://www.nature.com/articles/s41467-019-10630-1)
 
 The current workflow is implemented for **DMFS, Nteeth, and DFSS** and includes:
 
-### DMFS
+### Single-trait SuSiE-RSS
 
 1. SuSiE credible set results  
 2. Positional mapping to nearest hg19 genes  
 3. eQTL colocalization summary  
 
-### Nteeth
-
-1. SuSiE credible set results  
-2. Positional mapping to nearest hg19 genes  
-3. eQTL colocalization summary  
-
-### DFSS
-
-1. SuSiE credible set results  
-2. Positional mapping to nearest hg19 genes  
-3. eQTL colocalization summary  
-
-### Joint mvSuSiE
+### Joint mvSuSiE-RSS
 
 1. DMFS + Nteeth  
 2. DMFS + DFSS  
 3. Nteeth + DFSS  
 4. DMFS + Nteeth + DFSS  
 
-For joint mvSuSiE analyses, only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
+For joint mvSuSiE-RSS analyses, only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
 
 ```{r setup, echo=TRUE, message=FALSE, warning=FALSE}
 library(dplyr)
