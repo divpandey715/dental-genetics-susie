@@ -198,7 +198,9 @@ run_mvsusie_locus <- function(prefix, ld_dir) {
         R = R,
         N = median(N_vec, na.rm = TRUE),
         prior_variance = mvsusie_prior,
-        L = 10
+        L = 10,
+        max_iter = 1000,
+        tol = 1e-04
       )
     },
     error = function(e) {
