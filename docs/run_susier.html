@@ -531,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree562ae406f0f02bd118c115f879a42fd2009ad8fatargetblank562ae40a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreef8cd4f57f1a97e36f451faca4b8729296bab8c67targetblankf8cd4f5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/562ae406f0f02bd118c115f879a42fd2009ad8fa" target="_blank">562ae40</a>
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/f8cd4f57f1a97e36f451faca4b8729296bab8c67" target="_blank">f8cd4f5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietree562ae406f0f02bd118c115f879a42fd2009ad8fatargetblank562ae40a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdivpandey715dentalgeneticssusietreef8cd4f57f1a97e36f451faca4b8729296bab8c67targetblankf8cd4f5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/divpandey715/dental-genetics-susie/tree/562ae406f0f02bd118c115f879a42fd2009ad8fa" target="_blank">562ae40</a>.
+<a href="https://github.com/divpandey715/dental-genetics-susie/tree/f8cd4f57f1a97e36f451faca4b8729296bab8c67" target="_blank">f8cd4f5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,6 +648,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/divpandey715/dental-genetics-susie/blob/f8cd4f57f1a97e36f451faca4b8729296bab8c67/analysis/run_susier.Rmd" target="_blank">f8cd4f5</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-22
+</td>
+<td>
+Add mvSuSiE convergence note
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/divpandey715/dental-genetics-susie/54ca267e724a27076496b9625d32aa3412a80316/docs/run_susier.html" target="_blank">54ca267</a>
+</td>
+<td>
+divpandey715
+</td>
+<td>
+2026-07-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1448,6 +1482,11 @@ dfss_positional_mapping %&gt;%
 <h1>Joint mvSuSiE-RSS Fine-Mapping</h1>
 <div id="joint-analysis-workflow" class="section level2">
 <h2>Joint analysis workflow</h2>
+<p>Model convergence was checked from the saved mvSuSiE-RSS fit objects.
+Some loci did not converge even after increasing the maximum number of
+iterations to 1000, so results from non-converged loci should be
+interpreted cautiously. PIP values were verified to remain bounded
+between 0 and 1 for all joint summary outputs.</p>
 <p>For the joint mvSuSiE-RSS analyses, I used the same general workflow
 across all trait pairs and the three-trait analysis:</p>
 <ol style="list-style-type: decimal">
