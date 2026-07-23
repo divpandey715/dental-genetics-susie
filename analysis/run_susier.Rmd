@@ -221,6 +221,8 @@ cat(
 
 ## Joint analysis workflow
 
+Model convergence was checked from the saved mvSuSiE-RSS fit objects. Some loci did not converge even after increasing the maximum number of iterations to 1000, so results from non-converged loci should be interpreted cautiously. PIP values were verified to remain bounded between 0 and 1 for all joint summary outputs.
+
 For the joint mvSuSiE-RSS analyses, I used the same general workflow across all trait pairs and the three-trait analysis:
 
 1. GWAS summary statistics were aligned to the same locus-specific EUR LD matrices.
