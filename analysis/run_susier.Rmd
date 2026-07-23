@@ -221,9 +221,7 @@ cat(
 
 ## Joint analysis workflow
 
-Model convergence was checked from the saved mvSuSiE-RSS fit objects. Some loci did not converge even after increasing the maximum number of iterations to 1000, so results from non-converged loci should be interpreted cautiously. PIP values were verified to remain bounded between 0 and 1 for all joint summary outputs.
-
-For the joint mvSuSiE-RSS analyses, I used the same general workflow across all trait pairs and the three-trait analysis:
+For the joint mvSuSiE-RSS analyses, the same general workflow was used across all trait pairs and the three-trait analysis:
 
 1. GWAS summary statistics were aligned to the same locus-specific EUR LD matrices.
 2. The corresponding `.id_map` files were used to map LD rsIDs to chromosome-position marker names.
@@ -231,9 +229,16 @@ For the joint mvSuSiE-RSS analyses, I used the same general workflow across all 
 4. mvSuSiE-RSS was run using the same prior variance structure and `L = 10`.
 5. Joint PIP, credible set assignment, purity, Z-scores, effect estimates, standard errors, p-values, sample sizes, and nearest hg19 gene annotation were summarized.
 
-For all joint mvSuSiE-RSS analyses, only variants with **PIP = 1** are displayed in the tables below.
+For all joint mvSuSiE-RSS analyses, only variants with `PIP = 1` are displayed in the tables below.
+
+Model convergence was checked from the saved mvSuSiE-RSS fit objects. Some loci did not converge even after increasing the maximum number of iterations to 1000, so results from non-converged loci should be interpreted cautiously. PIP values were verified to remain bounded between 0 and 1 for all joint summary outputs.
 
 The mvSuSiE-RSS scripts are available here:
+
+- [DMFS + Nteeth mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
+- [DMFS + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
+- [Nteeth + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R)
+- [DMFS + Nteeth + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R)
 
 - [DMFS + Nteeth: `07_mvsusie_dmfs_nteeth.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
 - [DMFS + DFSS: `11_mvsusie_dmfs_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
