@@ -235,10 +235,6 @@ Model convergence was checked from the saved mvSuSiE-RSS fit objects. Some loci 
 
 The mvSuSiE-RSS scripts are available here:
 
-- [DMFS + Nteeth mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
-- [DMFS + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
-- [Nteeth + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R)
-- [DMFS + Nteeth + DFSS mvSuSiE script](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R)
 
 - [DMFS + Nteeth: `07_mvsusie_dmfs_nteeth.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/07_mvsusie_dmfs_nteeth.R)
 - [DMFS + DFSS: `11_mvsusie_dmfs_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
