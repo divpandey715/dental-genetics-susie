@@ -285,7 +285,8 @@ for (i in seq_along(ld_files)) {
     n = N_SAMPLE,
     L = L_MAX,
     estimate_prior_method = "EM",
-    estimate_residual_variance = FALSE
+    estimate_residual_variance = FALSE,
+    max_iter = 1000
   )
   
   susie_results[[i]] <- list(
