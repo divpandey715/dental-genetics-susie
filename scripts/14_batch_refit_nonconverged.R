@@ -214,6 +214,27 @@ refit_locus <- function(prefix, ld_dir, trait_a_name, trait_a_data,
 }
 
 ############################
+# Retry helper - the LDMatrix/results files live on an iCloud-synced
+# volume, which occasionally throws a transient
+# "error reading from connection" on readRDS()/read.csv(). Retry a
+# few times with a short pause before giving up for real.
+############################
+
+retry_read <- function(expr, max_tries = 5, pause_secs = 5) {
+  for (attempt in seq_len(max_tries)) {
+    result <- tryCatch(list(value = expr, ok = TRUE),
+                        error = function(e) list(err = e, ok = FALSE))
+    if (result$ok) {
+      return(result$value)
+    }
+    cat("Read failed (attempt", attempt, "of", max_tries, "):",
+        conditionMessage(result$err), "- retrying in", pause_secs, "s\n")
+    Sys.sleep(pause_secs)
+  }
+  stop("Read failed after ", max_tries, " attempts")
+}
+
+############################
 # Patch a saved mvSuSiE results/summary pair for one script
 ############################
 
@@ -221,13 +242,13 @@ patch_results <- function(results_rds, summary_csv, prefix, refit,
                            trait_a_name, trait_b_name,
                            trait_a_pcol, trait_b_pcol) {
 
-  all_results <- readRDS(results_rds)
+  all_results <- retry_read(readRDS(results_rds))
 
   all_results[[prefix]] <- refit$fit
 
   saveRDS(all_results, results_rds)
 
-  final_summary <- read.csv(summary_csv, stringsAsFactors = FALSE)
+  final_summary <- retry_read(read.csv(summary_csv, stringsAsFactors = FALSE))
 
   final_summary <- final_summary[final_summary$Locus != prefix, ]
 
@@ -325,6 +346,26 @@ cat("\nTotal re-fit jobs:", length(jobs), "\n")
 
 for (job in jobs) {
 
+  ############################
+  # Skip loci that are already converged (makes this script safely
+  # re-runnable if it's interrupted partway through)
+  ############################
+
+  existing_results <- tryCatch(
+    retry_read(readRDS(job$results_rds)),
+    error = function(e) NULL
+  )
+
+  existing_fit <- existing_results[[job$prefix]]
+
+  if (!is.null(existing_fit) && isTRUE(existing_fit$converged)) {
+    cat(
+      "\nSkipping", job$prefix, "(", job$trait_a_name, "+", job$trait_b_name,
+      ") - already converged in", job$results_rds, "\n"
+    )
+    next
+  }
+
   refit <- refit_locus(
     prefix = job$prefix,
     ld_dir = job$ld_dir,
@@ -339,15 +380,39 @@ for (job in jobs) {
     next
   }
 
-  patch_results(
-    results_rds = job$results_rds,
-    summary_csv = job$summary_csv,
-    prefix = job$prefix,
-    refit = refit,
-    trait_a_name = job$trait_a_name,
-    trait_b_name = job$trait_b_name,
-    trait_a_pcol = job$trait_a_pcol,
-    trait_b_pcol = job$trait_b_pcol
+  ############################
+  # Back up the fit immediately so an expensive re-fit is never
+  # lost if the patch step below hits a transient file-read error
+  ############################
+
+  backup_file <- file.path(
+    results_dir,
+    paste0("refit_backup_", job$prefix, "_",
+           job$trait_a_name, "_", job$trait_b_name, ".RDS")
+  )
+  saveRDS(refit, backup_file)
+  cat("Backed up fit for", job$prefix, "to", backup_file, "\n")
+
+  tryCatch(
+    {
+      patch_results(
+        results_rds = job$results_rds,
+        summary_csv = job$summary_csv,
+        prefix = job$prefix,
+        refit = refit,
+        trait_a_name = job$trait_a_name,
+        trait_b_name = job$trait_b_name,
+        trait_a_pcol = job$trait_a_pcol,
+        trait_b_pcol = job$trait_b_pcol
+      )
+      file.remove(backup_file)
+    },
+    error = function(e) {
+      cat("Patch failed for", job$prefix, "even after retries:",
+          conditionMessage(e),
+          "- fit is safely backed up at", backup_file,
+          "and can be patched in manually later.\n")
+    }
   )
 }
 
