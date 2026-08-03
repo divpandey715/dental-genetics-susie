@@ -14,7 +14,7 @@ library(data.table)
 # Paths
 ############################################################
 
-root <- "/Users/divyapandey/Documents/GitHub/dental-genetics-susie"
+root <- getwd()
 
 position_file <- file.path(
   root,
