@@ -32,18 +32,27 @@ For joint mvSuSiE-RSS analyses, only variants with **PIP = 1** are displayed, wi
 
 ## Reproducing this analysis
 
-To reproduce every result on this page from raw inputs, run the following scripts from the repository root, in this order:
+To reproduce every result on this page from raw inputs, run the following scripts from the repository root, in this order. See the repository [README](https://github.com/divpandey715/dental-genetics-susie/blob/main/README.md) for the full pipeline table.
 
-1. `scripts/02_run_susie.R` (DMFS single-trait)
-2. `scripts/02_run_susie_nteeth.R` (Nteeth single-trait)
-3. `scripts/08_run_susie_dfss.R` (DFSS single-trait)
-4. `scripts/07_mvsusie_dmfs_nteeth.R`
-5. `scripts/11_mvsusie_dmfs_dfss.R`
-6. `scripts/12_mvsusie_nteeth_dfss.R`
-7. `scripts/13_mvsusie_dmfs_nteeth_dfss.R`
-8. `scripts/14_batch_refit_nonconverged.R` — re-fits, with a higher iteration budget, any locus from steps 4-7 that did not converge on the first pass. This step is required for the results shown here to match; it patches the results/summary files from steps 4-7 in place rather than re-running them from scratch, and is safely re-runnable (it automatically skips loci that are already converged).
+**1. Single-trait SuSiE-RSS** (`scripts/01_prepare_input_data.R` first, then per trait):
 
-All scripts use `L = 10` and the prior variance matrix `matrix(c(0.2, 0.1, 0.1, 0.2), nrow = 2)` for the joint analyses, `max_iter = 1000` and `tol = 1e-04` (steps 1-7), and `max_iter = 3000` (step 8 only). A fixed seed (`set.seed(20260523)`) is used where randomness is involved. R version, package versions, and the exact git commit this page was built from are recorded automatically at the bottom of this page by workflowr.
+| Trait | Fine-mapping | Summarize | Position mapping | eQTL colocalization |
+|---|---|---|---|---|
+| DMFS | `02_run_susie.R` | `03_summarize_results.R` | `04_position_mapping.R` | `05_eqtl_colocalization.R` |
+| Nteeth | `02_run_susie_nteeth.R` | `03_summarize_results_nteeth.R` | `04_position_mapping_nteeth.R` | `05_eqtl_colocalization_nteeth.R` |
+| DFSS | `08_run_susie_dfss.R` | `08b_summarize_results_dfss.R` | `09_position_mapping_dfss.R` | `10_dfss_eqtl_analysis.R` |
+
+Each column depends on the one before it in the same row (e.g. `04_position_mapping.R` reads the output of `03_summarize_results.R`). **All four steps must be re-run for a trait whenever its fine-mapping step changes** — the credible set, position mapping, and eQTL tables on this page are only as current as the last time this full chain was run, not just the fine-mapping step.
+
+**2. Joint mvSuSiE-RSS** (each depends on `01` plus the relevant trait(s)' single-trait outputs above):
+
+- `07_mvsusie_dmfs_nteeth.R`, `11_mvsusie_dmfs_dfss.R`, `12_mvsusie_nteeth_dfss.R`, `13_mvsusie_dmfs_nteeth_dfss.R`
+
+**3. Convergence pass:**
+
+- `14_batch_refit_nonconverged.R` — re-fits, with a higher iteration budget, any locus from step 2 that did not converge on the first pass. Required for the results shown here to match; it patches the results/summary files from step 2 in place rather than re-running them from scratch, and is safely re-runnable (it automatically skips loci that are already converged).
+
+All scripts use `L = 10` and the prior variance matrix `matrix(c(0.2, 0.1, 0.1, 0.2), nrow = 2)` for the joint analyses, `max_iter = 1000` and `tol = 1e-04` (steps 1-2), and `max_iter = 3000` (step 3 only). A fixed seed (`set.seed(20260523)`) is used where randomness is involved. R version, package versions, and the exact git commit this page was built from are recorded automatically at the bottom of this page by workflowr.
 
 ```{r setup, echo=TRUE, message=FALSE, warning=FALSE}
 library(dplyr)
