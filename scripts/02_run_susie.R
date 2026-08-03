@@ -240,7 +240,24 @@ for (i in seq_along(ld_files)) {
   
   R <- (R + t(R)) / 2
   diag(R) <- 1
-  
+
+  ############################
+  # Regularize LD matrix to be positive semi-definite
+  ############################
+
+  ev_min <- min(eigen(R, symmetric = TRUE, only.values = TRUE)$values)
+
+  if (ev_min < 1e-6) {
+    lambda <- min(0.5, ((1e-6 - ev_min) / (1 - ev_min)) * 1.05)
+    R <- (1 - lambda) * R + lambda * diag(nrow(R))
+    diag(R) <- 1
+    cat(
+      "Regularized non-PSD LD matrix for", locus_id,
+      "- min eig was", round(ev_min, 4),
+      ", shrinkage lambda =", round(lambda, 4), "\n"
+    )
+  }
+
   ############################
   # Final GWAS / LD alignment
   ############################
@@ -268,7 +285,8 @@ for (i in seq_along(ld_files)) {
     n = N_SAMPLE,
     L = L_MAX,
     estimate_prior_method = "EM",
-    estimate_residual_variance = FALSE
+    estimate_residual_variance = FALSE,
+    max_iter = 1000
   )
   
   susie_results[[i]] <- list(

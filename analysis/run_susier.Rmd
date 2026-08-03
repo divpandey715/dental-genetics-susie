@@ -30,6 +30,21 @@ The current workflow is implemented for **DMFS, Nteeth, and DFSS** and includes:
 
 For joint mvSuSiE-RSS analyses, only variants with **PIP = 1** are displayed, with nearest hg19 gene annotation added from the positional mapping results.
 
+## Reproducing this analysis
+
+To reproduce every result on this page from raw inputs, run the following scripts from the repository root, in this order:
+
+1. `scripts/02_run_susie.R` (DMFS single-trait)
+2. `scripts/02_run_susie_nteeth.R` (Nteeth single-trait)
+3. `scripts/08_run_susie_dfss.R` (DFSS single-trait)
+4. `scripts/07_mvsusie_dmfs_nteeth.R`
+5. `scripts/11_mvsusie_dmfs_dfss.R`
+6. `scripts/12_mvsusie_nteeth_dfss.R`
+7. `scripts/13_mvsusie_dmfs_nteeth_dfss.R`
+8. `scripts/14_batch_refit_nonconverged.R` — re-fits, with a higher iteration budget, any locus from steps 4-7 that did not converge on the first pass. This step is required for the results shown here to match; it patches the results/summary files from steps 4-7 in place rather than re-running them from scratch, and is safely re-runnable (it automatically skips loci that are already converged).
+
+All scripts use `L = 10` and the prior variance matrix `matrix(c(0.2, 0.1, 0.1, 0.2), nrow = 2)` for the joint analyses, `max_iter = 1000` and `tol = 1e-04` (steps 1-7), and `max_iter = 3000` (step 8 only). A fixed seed (`set.seed(20260523)`) is used where randomness is involved. R version, package versions, and the exact git commit this page was built from are recorded automatically at the bottom of this page by workflowr.
+
 ```{r setup, echo=TRUE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(DT)
@@ -226,12 +241,14 @@ For the joint mvSuSiE-RSS analyses, the same general workflow was used across al
 1. GWAS summary statistics were aligned to the same locus-specific EUR LD matrices.
 2. The corresponding `.id_map` files were used to map LD rsIDs to chromosome-position marker names.
 3. Z-scores were calculated as `Effect / StdErr`.
-4. mvSuSiE-RSS was run using the same prior variance structure and `L = 10`.
-5. Joint PIP, credible set assignment, purity, Z-scores, effect estimates, standard errors, p-values, sample sizes, and nearest hg19 gene annotation were summarized.
+4. Each locus-specific LD matrix was checked for positive semi-definiteness; if it was not, it was regularized by shrinking it toward the identity matrix by the minimum amount needed to make it valid (see the "Convergence" note below for why this step matters).
+5. mvSuSiE-RSS was run using the same prior variance structure and `L = 10`.
+6. Joint PIP, credible set assignment, purity, Z-scores, effect estimates, standard errors, p-values, sample sizes, and nearest hg19 gene annotation were summarized.
+7. Any locus that did not converge (`fit$converged == FALSE`) after `max_iter = 1000` was re-fit with `max_iter = 3000` (`scripts/14_batch_refit_nonconverged.R`), patching the results/summary files in place.
 
 For all joint mvSuSiE-RSS analyses, only variants with `PIP = 1` are displayed in the tables below.
 
-Model convergence was checked from the saved mvSuSiE-RSS fit objects. Some loci did not converge even after increasing the maximum number of iterations to 1000, so results from non-converged loci should be interpreted cautiously. PIP values were verified to remain bounded between 0 and 1 for all joint summary outputs.
+**Convergence.** Per-locus LD matrices computed from the reference panel are not guaranteed to be positive semi-definite, and feeding a non-PSD matrix into `mvsusie_rss()`/`susie_rss()` causes the ELBO to diverge rather than converge — the fit still returns a result, but `fit$converged` is `FALSE` and the PIPs/credible sets are not reliable. Step 4 above resolves this. Even with a valid LD matrix, 7 loci in a single dense region (chr5:134,504,407-134,510,772) required more than 1000 iterations to converge, likely because two or more highly correlated candidate variants there compete for credit under the model; these were re-fit with `max_iter = 3000` (step 7). **Model convergence (`fit$converged`) was verified for every locus in every analysis on this page: all 35 single-trait fits and all 17 joint mvSuSiE fits converged.** PIP values were verified to remain bounded between 0 and 1 for all summary outputs.
 
 The mvSuSiE-RSS scripts are available here:
 
@@ -240,6 +257,7 @@ The mvSuSiE-RSS scripts are available here:
 - [DMFS + DFSS: `11_mvsusie_dmfs_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/11_mvsusie_dmfs_dfss.R)
 - [Nteeth + DFSS: `12_mvsusie_nteeth_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/12_mvsusie_nteeth_dfss.R)
 - [DMFS + Nteeth + DFSS: `13_mvsusie_dmfs_nteeth_dfss.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/13_mvsusie_dmfs_nteeth_dfss.R)
+- [Targeted re-fit for non-converged loci: `14_batch_refit_nonconverged.R`](https://github.com/divpandey715/dental-genetics-susie/blob/main/scripts/14_batch_refit_nonconverged.R)
 
 ## Joint mvSuSiE Fine-Mapping: DMFS and Nteeth
 

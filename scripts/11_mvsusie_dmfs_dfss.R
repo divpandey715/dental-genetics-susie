@@ -14,7 +14,7 @@ library(mvsusieR)
 # Paths
 ############################
 
-root <- "/Users/divyapandey/Documents/GitHub/dental-genetics-susie"
+root <- getwd()
 
 dmfs_summary_file <- file.path(root, "data_samples/dmfs_summary.RDS")
 dfss_summary_file <- file.path(root, "data_samples/dfss_summary.RDS")
@@ -155,7 +155,24 @@ run_mvsusie_locus <- function(prefix, ld_dir) {
   
   R <- (R + t(R)) / 2
   diag(R) <- 1
-  
+
+  ############################
+  # Regularize LD matrix to be positive semi-definite
+  ############################
+
+  ev_min <- min(eigen(R, symmetric = TRUE, only.values = TRUE)$values)
+
+  if (ev_min < 1e-6) {
+    lambda <- min(0.5, ((1e-6 - ev_min) / (1 - ev_min)) * 1.05)
+    R <- (1 - lambda) * R + lambda * diag(nrow(R))
+    diag(R) <- 1
+    cat(
+      "Regularized non-PSD LD matrix for", prefix,
+      "- min eig was", round(ev_min, 4),
+      ", shrinkage lambda =", round(lambda, 4), "\n"
+    )
+  }
+
   ############################
   # Align GWAS data
   ############################
