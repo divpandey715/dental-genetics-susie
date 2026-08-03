@@ -87,7 +87,14 @@ dmfs_susie_final_summary <- read.csv(
   "results/dmfs_susie_final_summary.csv"
 )
 
+dmfs_gene_lookup <- read.csv(
+  "results/dmfs_positional_mapping.csv"
+) %>%
+  dplyr::select(MarkerName, external_gene_name, ensembl_gene_id) %>%
+  distinct(MarkerName, .keep_all = TRUE)
+
 dmfs_susie_final_summary %>%
+  left_join(dmfs_gene_lookup, by = "MarkerName") %>%
   arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
@@ -95,6 +102,8 @@ dmfs_susie_final_summary %>%
     CS,
     PIP,
     Purity,
+    external_gene_name,
+    ensembl_gene_id,
     everything()
   ) %>%
   make_dt("DMFS SuSiE Credible Set Results")
@@ -139,7 +148,14 @@ nteeth_susie_final_summary <- read.csv(
   "results/nteeth_susie_final_summary.csv"
 )
 
+nteeth_gene_lookup <- read.csv(
+  "results/nteeth_positional_mapping.csv"
+) %>%
+  dplyr::select(MarkerName, external_gene_name, ensembl_gene_id) %>%
+  distinct(MarkerName, .keep_all = TRUE)
+
 nteeth_susie_final_summary %>%
+  left_join(nteeth_gene_lookup, by = "MarkerName") %>%
   arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
@@ -147,6 +163,8 @@ nteeth_susie_final_summary %>%
     CS,
     PIP,
     Purity,
+    external_gene_name,
+    ensembl_gene_id,
     everything()
   ) %>%
   make_dt("Nteeth SuSiE Credible Set Results")
@@ -191,7 +209,14 @@ dfss_susie_final_summary <- read.csv(
   "results/dfss_susie_final_summary.csv"
 )
 
+dfss_gene_lookup <- read.csv(
+  "results/dfss_positional_mapping.csv"
+) %>%
+  dplyr::select(MarkerName, external_gene_name, ensembl_gene_id) %>%
+  distinct(MarkerName, .keep_all = TRUE)
+
 dfss_susie_final_summary %>%
+  left_join(dfss_gene_lookup, by = "MarkerName") %>%
   arrange(desc(PIP)) %>%
   dplyr::select(
     Locus,
@@ -199,6 +224,8 @@ dfss_susie_final_summary %>%
     CS,
     PIP,
     Purity,
+    external_gene_name,
+    ensembl_gene_id,
     everything()
   ) %>%
   make_dt("DFSS SuSiE Credible Set Results")
